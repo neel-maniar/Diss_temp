@@ -1,0 +1,69 @@
+0
+C:\Users\neelm\miniconda3\envs\gp\lib\site-packages\scipy\optimize\_minimize.py:708: OptimizeWarning: Desired error not necessarily achieved due to precision loss.
+  res = _minimize_bfgs(fun, x0, args, jac, callback, **options)
+         Current function value: -2358.799454
+         Iterations: 14
+         Function evaluations: 107
+         Gradient evaluations: 93
+Length of history: 15
+
+-2274 (Adam 0.001)
+-2358.80 (Adam 0.01)
+-2358.79 (Adam 0.1, 100 steps)
+
+Optimization terminated successfully.
+         Current function value: -2480.044755
+         Iterations: 13
+         Function evaluations: 21
+         Gradient evaluations: 21
+Length of history: 14
+
+-2479.84 (Adam 0.01)
+-2480.03
+-2480.044754979487
+
+1
+C:\Users\neelm\miniconda3\envs\gp\lib\site-packages\scipy\optimize\_minimize.py:708: OptimizeWarning: Desired error not necessarily achieved due to precision loss.
+  res = _minimize_bfgs(fun, x0, args, jac, callback, **options)
+         Current function value: -2543.490956
+         Iterations: 15
+         Function evaluations: 80
+         Gradient evaluations: 67
+Length of history: 16
+
+Optimization terminated successfully.
+         Current function value: -2608.809825
+         Iterations: 13
+         Function evaluations: 20
+         Gradient evaluations: 20
+Length of history: 14
+
+2
+Optimization terminated successfully.
+         Current function value: -2237.405463
+         Iterations: 13
+         Function evaluations: 17
+         Gradient evaluations: 17
+Length of history: 14
+
+Optimization terminated successfully.
+         Current function value: -2392.119417
+         Iterations: 13
+         Function evaluations: 17
+         Gradient evaluations: 17
+Length of history: 14
+
+3
+Optimization terminated successfully.
+         Current function value: -2542.554652
+         Iterations: 13
+         Function evaluations: 16
+         Gradient evaluations: 16
+Length of history: 14
+
+Optimization terminated successfully.
+         Current function value: -2606.635653
+         Iterations: 13
+         Function evaluations: 21
+         Gradient evaluations: 21
+Length of history: 14

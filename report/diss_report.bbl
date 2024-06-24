@@ -1,0 +1,334 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{ynt/global//global/global}
+    \entry{Swan}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a71abffb313af958d446a3e4f8a1b4ef}{%
+           family={Swan},
+           familyi={S\bibinitperiod},
+           given={Andy},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{a71abffb313af958d446a3e4f8a1b4ef}
+      \strng{fullhash}{a71abffb313af958d446a3e4f8a1b4ef}
+      \strng{bibnamehash}{a71abffb313af958d446a3e4f8a1b4ef}
+      \strng{authorbibnamehash}{a71abffb313af958d446a3e4f8a1b4ef}
+      \strng{authornamehash}{a71abffb313af958d446a3e4f8a1b4ef}
+      \strng{authorfullhash}{a71abffb313af958d446a3e4f8a1b4ef}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Geological Magazine}
+      \field{note}{Dataset is described and provided in Appendix C}
+      \field{number}{6}
+      \field{title}{GOOVAERTS, P. 1997. Geostatistics for Natural Resources Evaluation. Applied Geostatistics Series.}
+      \field{volume}{135}
+      \field{year}{1998}
+      \field{pages}{819\bibrangedash 842}
+      \range{pages}{24}
+      \verb{doi}
+      \verb 10.1017/S0016756898631502
+      \endverb
+    \endentry
+    \entry{rasmussen}{book}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=58d90ed7b7348c7a5a9b4a2a8f46df7b}{%
+           family={Rasmussen},
+           familyi={R\bibinitperiod},
+           given={Carl\bibnamedelima Edward},
+           giveni={C\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d34fdfcbfcb5412397b946351370db22}{%
+           family={Williams},
+           familyi={W\bibinitperiod},
+           given={Christopher\bibnamedelimb K.\bibnamedelimi I.},
+           giveni={C\bibinitperiod\bibinitdelim K\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{f0ccf4a09a3a6a91719405724e3ae5da}
+      \strng{fullhash}{f0ccf4a09a3a6a91719405724e3ae5da}
+      \strng{bibnamehash}{f0ccf4a09a3a6a91719405724e3ae5da}
+      \strng{authorbibnamehash}{f0ccf4a09a3a6a91719405724e3ae5da}
+      \strng{authornamehash}{f0ccf4a09a3a6a91719405724e3ae5da}
+      \strng{authorfullhash}{f0ccf4a09a3a6a91719405724e3ae5da}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Gaussian Processes for Machine Learning}
+      \field{year}{2006}
+      \verb{doi}
+      \verb https://doi.org/10.7551/mitpress/3206.001.0001
+      \endverb
+    \endentry
+    \entry{alvarez}{misc}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=fcb6f32e92d7a3cd90557d86d0c5da9b}{%
+           family={Alvarez},
+           familyi={A\bibinitperiod},
+           given={Mauricio\bibnamedelima A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=50d9bfec9f6162486e5504b41791de0d}{%
+           family={Rosasco},
+           familyi={R\bibinitperiod},
+           given={Lorenzo},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f83d1b861ef00c2c1e490eb5f7360434}{%
+           family={Lawrence},
+           familyi={L\bibinitperiod},
+           given={Neil\bibnamedelima D.},
+           giveni={N\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{621306fd5282c32d980a9956f9a92388}
+      \strng{fullhash}{621306fd5282c32d980a9956f9a92388}
+      \strng{bibnamehash}{621306fd5282c32d980a9956f9a92388}
+      \strng{authorbibnamehash}{621306fd5282c32d980a9956f9a92388}
+      \strng{authornamehash}{621306fd5282c32d980a9956f9a92388}
+      \strng{authorfullhash}{621306fd5282c32d980a9956f9a92388}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{stat.ML}
+      \field{eprinttype}{arXiv}
+      \field{title}{Kernels for Vector-Valued Functions: a Review}
+      \field{year}{2012}
+      \verb{eprint}
+      \verb 1106.6251
+      \endverb
+    \endentry
+    \entry{Jidling}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=b59780562cdd4780711aedfd55918815}{%
+           family={Jidling},
+           familyi={J\bibinitperiod},
+           given={Carl},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f21f2855787c39337ef57063882d1a29}{%
+           family={Wahlström},
+           familyi={W\bibinitperiod},
+           given={Niklas},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fab21355ad1dec2960931935e8dfb3dd}{%
+           family={Wills},
+           familyi={W\bibinitperiod},
+           given={Adrian},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a7d921004899fc1272afda1ee990486b}{%
+           family={Schön},
+           familyi={S\bibinitperiod},
+           given={Thomas\bibnamedelima B},
+           giveni={T\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{7}{}{%
+        {{hash=e7e74de725116358b68a6e890c026145}{%
+           family={Guyon},
+           familyi={G\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=3b118a9660c18913c6d05d3bcfae41a3}{%
+           family={Luxburg},
+           familyi={L\bibinitperiod},
+           given={U.\bibnamedelimi Von},
+           giveni={U\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=9b411b6c9cefdde16ffea77ecf612142}{%
+           family={Bengio},
+           familyi={B\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=1444141e07dd9549dbb4b8530fe4ec15}{%
+           family={Wallach},
+           familyi={W\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+        {{hash=f3857e15544199442f3d4fb2cf6645b4}{%
+           family={Fergus},
+           familyi={F\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=c73f06e2fc98c9b0bf52eb5fdce61943}{%
+           family={Vishwanathan},
+           familyi={V\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=36b98b7ab533936cf1b5716148de704f}{%
+           family={Garnett},
+           familyi={G\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Curran Associates, Inc.}%
+      }
+      \strng{namehash}{16311dab0955b62892865262c1a91cec}
+      \strng{fullhash}{74325b2ba35506cfcfbc4077fde66aa6}
+      \strng{bibnamehash}{16311dab0955b62892865262c1a91cec}
+      \strng{authorbibnamehash}{16311dab0955b62892865262c1a91cec}
+      \strng{authornamehash}{16311dab0955b62892865262c1a91cec}
+      \strng{authorfullhash}{74325b2ba35506cfcfbc4077fde66aa6}
+      \strng{editorbibnamehash}{7cffda9a379be8eb9063eee4eb0f58b3}
+      \strng{editornamehash}{7cffda9a379be8eb9063eee4eb0f58b3}
+      \strng{editorfullhash}{1564f811a39f09a7400a11284c987926}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Linearly constrained Gaussian processes}
+      \field{volume}{30}
+      \field{year}{2017}
+      \verb{urlraw}
+      \verb https://proceedings.neurips.cc/paper_files/paper/2017/file/71ad16ad2c4d81f348082ff6c4b20768-Paper.pdf
+      \endverb
+      \verb{url}
+      \verb https://proceedings.neurips.cc/paper_files/paper/2017/file/71ad16ad2c4d81f348082ff6c4b20768-Paper.pdf
+      \endverb
+    \endentry
+    \entry{Raissi}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=95a17c39168b9e6b8812f207b4e036c1}{%
+           family={Raissi},
+           familyi={R\bibinitperiod},
+           given={Maziar},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=197d71332633e07aa578718628fdc405}{%
+           family={Perdikaris},
+           familyi={P\bibinitperiod},
+           given={Paris},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9aae361c2be63ce52bc98112e2a2fffa}{%
+           family={Karniadakis},
+           familyi={K\bibinitperiod},
+           given={George\bibnamedelima E.},
+           giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{93ae6c4ff4235c02057fbd439fa964f6}
+      \strng{fullhash}{93ae6c4ff4235c02057fbd439fa964f6}
+      \strng{bibnamehash}{93ae6c4ff4235c02057fbd439fa964f6}
+      \strng{authorbibnamehash}{93ae6c4ff4235c02057fbd439fa964f6}
+      \strng{authornamehash}{93ae6c4ff4235c02057fbd439fa964f6}
+      \strng{authorfullhash}{93ae6c4ff4235c02057fbd439fa964f6}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{CoRR}
+      \field{title}{Physics Informed Deep Learning Part (I): Data-driven Solutions of Nonlinear Partial Differential Equations}
+      \field{volume}{abs/1711.10561}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1711.10561
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/1711.10561
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/1711.10561
+      \endverb
+    \endentry
+    \entry{long}{misc}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=310c18684d9ae77eb68d9c06d807fa80}{%
+           family={Long},
+           familyi={L\bibinitperiod},
+           given={Da},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c92fb4d761d5c067a9eb42b2a2cf1521}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Zheng},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=55962960aee21c086dfdde95d91f8cab}{%
+           family={Krishnapriyan},
+           familyi={K\bibinitperiod},
+           given={Aditi},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9b6d19f4446e4560e17cd1763734578a}{%
+           family={Kirby},
+           familyi={K\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2b2d4c95737d2d23f0073f459c476a5b}{%
+           family={Zhe},
+           familyi={Z\bibinitperiod},
+           given={Shandian},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7a9d87c03bc63eaae329b08fd67ad864}{%
+           family={Mahoney},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{12377132d7054ddf294f9a68bd803a9b}
+      \strng{fullhash}{472d7de9a95e03ecc845d29c5db0ae4e}
+      \strng{bibnamehash}{12377132d7054ddf294f9a68bd803a9b}
+      \strng{authorbibnamehash}{12377132d7054ddf294f9a68bd803a9b}
+      \strng{authornamehash}{12377132d7054ddf294f9a68bd803a9b}
+      \strng{authorfullhash}{472d7de9a95e03ecc845d29c5db0ae4e}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{title}{AutoIP: A United Framework to Integrate Physics into Gaussian Processes}
+      \field{year}{2022}
+      \verb{eprint}
+      \verb 2202.12316
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

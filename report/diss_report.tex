@@ -1,0 +1,814 @@
+% Suggested LaTeX style template for Masters project report submitted at the
+% Department of Computer Science and Technology
+%
+% Markus Kuhn, May 2022
+% (borrowing elements from an earlier template by Steven Hand)
+
+\documentclass[12pt,a4paper,twoside]{report}
+% append option ",openright" after "twoside" if you prefer each chapter
+% to start on a recto (odd-numbered) page in a double-sided printout
+
+\usepackage{amsfonts} % Allows \mathbb{R} to work for example.
+\usepackage{amsmath} % Makes matrices work.
+\usepackage{amsthm} % Gives definitions a theme
+\usepackage{BOONDOX-uprscr} %Get mathscr
+\usepackage[pdfborder={0 0 0},
+pagebackref=true]{hyperref}  % turns references into hyperlinks
+\usepackage[svgnames]{xcolor}
+\hypersetup{colorlinks,linkcolor={blue},citecolor={purple},urlcolor={orange}}  
+\usepackage[nameinlink]{cleveref} % References Theorem 3 and highlights the whole thing
+\usepackage[vmargin=20mm,hmargin=25mm]{geometry}  % adjust page margins
+
+\usepackage{graphicx} % allows inclusion of PDF, PNG and JPG images
+\graphicspath{{../figures/}}
+\usepackage{parskip}  % separate paragraphs with vertical space
+                      % instead of indenting their first line
+\usepackage{setspace} % for \onehalfspacing
+\usepackage{refcount} % for counting pages
+\usepackage{upquote}  % for correct quotation marks in verbatim text
+
+\usepackage{algorithm} % Allows algorithm envs
+\usepackage{algpseudocode} %Works with algorithm package
+
+%\usepackage[
+%backend=biber,
+%style=alphabetic,
+%sorting=ynt
+%]{biblatex}
+%\addbibresource{refs.bib}
+
+\usepackage[
+backend=biber,
+style=authoryear-icomp,
+sorting=ynt
+]{biblatex}
+
+\addbibresource{refs.bib}
+
+\DeclareCiteCommand{\cite}
+  {\usebibmacro{prenote}}
+  {\printtext[bibhyperref]{\textbf{[\printnames{labelname}}, \printdate\textbf{]}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+% Change the following lines to your own project title, name, college, course
+\title{Linearly Constrained Gaussian Processes}
+\author{Neel Maniar}
+\date{June 2024}
+\newcommand{\college}{Emmanuel College}
+\newcommand{\course}{Master of Philosophy in Data Intensive Science}
+\newtheorem{thm}{Theorem}[section]
+\theoremstyle{definition}
+\newtheorem{remark}[thm]{Remark}
+\newtheorem{definition}[thm]{Definition}
+\newtheorem{exmp}[thm]{Example}
+\newcommand{\f}{\mathscr F_\mathbf x}
+\newcommand{\g}{\mathscr G_\mathbf x}
+
+
+
+\begin{document}
+
+\begin{titlepage}
+\makeatletter
+
+% University logo with shield hanging in left margin
+\hspace*{-14mm}\includegraphics[width=65mm]{CUni}
+
+% regular cover page
+\begin{center}
+\Huge
+\vspace{\fill}
+
+\@title
+\vspace{\fill}
+
+\@author
+\vspace{10mm}
+
+\includegraphics[width=35mm]{Emmanuel}
+
+\Large
+\college
+\vspace{\fill}
+
+\@date
+\vspace{\fill}
+
+\end{center}
+
+\vspace{\fill}
+\begin{center}
+Submitted in partial fulfillment of the requirements for the\\
+\course
+\end{center}
+\end{titlepage}
+
+\textbf{\Huge Declaration}
+\vspace{40pt}
+
+I, \@author\ of \college, being a candidate for the \course, hereby
+declare that this report and the work described in it are my own work,
+unaided except as may be specified below, and that the report does not
+contain material that has already been used to any substantial extent
+for a comparable purpose.
+
+% Add here things like: Figure X is the work of Y, etc.
+
+\bigskip 
+\textbf{Signed: Neel Maniar}
+
+\bigskip
+\textbf{Date: 29th June 2024}
+\vspace{\fill}
+
+\chapter*{Abstract}
+In this report, we attempt to reproduce the results of \cite{Jidling}. The paper exposes a systematic way in which to enforce linear functional constraints on Gaussian processes by choosing a suitable covariance function. This allows for an accurate, elegant and computationally cheap method of including physical priors into Bayesian inference.
+
+In addition, many of the mathematical concepts in the paper are made explicit.
+
+\chapter*{Nomenclature and Notation}\label{nomenclature}
+
+\section{Notation}
+The notation in this report differs from that in the primary paper.
+
+\paragraph{Bold symbols}Bold symbols denote objects in any space with dimension greater than 1. 
+
+\paragraph{Functionals and operators}A distinction is initially made between the vector quantity $\mathbf f(\mathbf x)$ and the function $\mathbf f$, (where the former is the latter evaluated at a single point, $\mathbf x$). This necessitates the different definitions of ``functional" and ``operator". However, due to \Cref{remark}, this distinction is loosened later.
+
+\paragraph{Dimensions}To avoid repeated mention of the ``dimension of the domain" or ``dimension of the codomain", most functions are fixed to be from $\mathbb{R}^D$ to $\mathbb{R}^K$, and most functionals have codomain $\mathbb{R}^L$. Dimensions are indexed by their lower case.
+
+In addition, there are $N_T$ training points, $N_P$ test points, indexed by $n$, or $n_T$ and $n_P$ if the former is ambiguous.
+
+\paragraph{Indexing tensors as matrices}Dealing with vector Gaussian processes often involves objects with more than two indices packaged as a matrix with two indices. To this effect, a new notation is used to index them:
+\begin{equation*}
+K_{(n,k),k'}:=K_{n+kK,k'}
+\end{equation*}
+
+This is analogous to the \texttt{reshape} method in \texttt{numpy}.
+
+\paragraph{Summation convention}Any pair of indices is implicitly summed over, as in Einstein summation convention.
+
+\section{Abbreviations and Symbols}
+\begin{tabular}{p{1.75cm}p{10cm}p{1cm}}
+	MLL & \raggedright Marginal Log-Likelihood (logarithm of Bayesian~evidence) & \pageref{MLL}\\
+	$\mathbf I_N$ & Identity matrix in $N$ dimensions & \\
+	$\mathbf{\overline{\overline K}}$ & Gram matrix & \\
+	$\mathbf{\overline z}$ & Flattened vector (see definition of \hyperref[vectorGP]{Vector Gaussian Process})\\
+	GPR & Gaussian Process Regression & \\
+	GP & Gaussian Process & \\
+	RMSE & Root Mean Squared Error & \pageref{RMSE}\\
+	$\|\mathbf z\|_p$ & $p$th norm of $\mathbf z$: $\left(\sum_{d=1}^D |z_d|^p\right)^{1/p}$  & \pageref{norm}\\ 
+	$K_{SE}$, SE & Squared exponential kernel &\pageref{SE}\\
+\end{tabular}
+
+
+\tableofcontents
+
+\chapter{Introduction}
+\label{firstcontentpage}
+Gaussian processes offer a comprehensive framework in which to conduct Bayesian inference, and have the advantage that they are interpretable, allow for very explicit prior encoding, and provide natural uncertainty bounds on predictions.
+
+In this report, we compare three different methods of encoding linear constraints into a Gaussian process are analysed.
+
+\begin{enumerate}
+	\item Not including any constraints (Diagonal Kernel).
+	\item Enforcing linear constraints at artificial "inducing points", for various numbers of inducing points (Artificial Kernel).
+	\item Enforcing linear constraints throughout the domain by suitably changing the covariance matrix (Custom Kernel).
+\end{enumerate}
+
+The analysis is done on two datasets:
+\begin{enumerate}
+	\item A 2D simulated divergence-free vector field.
+	\item A 3D real curl-free vector field.
+\end{enumerate}
+
+\chapter{Related work}
+There are many situations in which knowledge of physical systems can greatly increase the predictive power of machine learning models. This knowledge typically manifests itself in a differential or integral equation. Sometimes these equations form linear constraints on the class of functions which may fit the data, and hence provide a valuable inductive bias.
+
+For example,
+\begin{enumerate}
+	\item Incompressibility of a fluid implies that its velocity is a divergence-free vector field. 
+	\item The concentration of metals and rocks (as in the Swiss Jura dataset \cite{Swan}) follows a diffusion equation. 
+	\item Systems of predators and prey are well-modelled by the Lotka-Volterra system. 
+	\item In an unchanging electric field with zero current density, magnetic fields are curl-free.
+\end{enumerate}
+
+Traditional deep learning approaches are often ignorant of these physical laws, and instead use highly flexible and overparameterised neural network architectures to fit to data, potentially augmenting a loss function to account for overfitting. 
+PINNs (Physics Informed Neural Networks) \cite{Raissi} encode physical information by further augmenting the loss function by penalising deviation from a physical constraint. However, this does not explicitly treat data as being a noisy approximation to a physical latent function, and can lead to a balance between minimising error due to noise and error due to deviation from physics. This balance is difficult to interpret.
+
+One way in which linear constraints can be encoded within Gaussian processes is by introducing artificial \emph{inducing} or \emph{collocation} points, at which the constraint is locally enforced. These methods are powerful since they are flexible, allowing for nonlinear constraints, as well as forcing terms. In \cite{long}, this method is even used to include information about partially known constraints. The disadvantage with this method is that it increases the number of datapoints, which greatly slows down the time taken to perform regression and prediction (which, due to taking the inverse of a Gram matrix, scale with $\mathcal O(N^3)$ where $N$ is the number of datapoints).
+
+\chapter{Mathematical background}
+\section{Vector Gaussian Processes}
+\raggedright Most introductory treatments of Gaussian processes, including \cite{rasmussen}, solely discuss scalar-valued Gaussian processes - that is to say, functions $f:\mathbb{R}^D\to\mathbb{R}$.
+
+Here, we are dealing with vector-valued processes, so it is worth outlining what that means. A more comprehensive review is found in \cite{alvarez}.
+
+\begin{definition}[Vector Gaussian Process]\label{vectorGP}
+	We say $\mathbf f:\mathbb{R}^D\to\mathbb{R}^K$ follows a Gaussian Process distribution with mean $\mathbf m$ and covariance function $\mathbf K$:
+	$$\mathbf m:\mathbb{R}^D\to\mathbb{R}^K, \quad \mathbf K:\mathbb{R}^D\times \mathbb{R}^D\to\mathbb{R}^{K\times K}$$
+	if on any finite subset $\{\mathbf x_n\}_{n=1}^N \subset\mathbb{R}^D$, the flattened vector:
+
+	$$ \mathbf {\bar f}:= \begin{bmatrix}
+	\{f_1(\mathbf x_n)\}_{n=1}^N \\ 
+	\vdots \\ 
+	\{f_K(\mathbf x_n)\}_{n=1}^N\\
+\end{bmatrix}\in \mathbb{R}^{NK}$$	
+
+is a multivariate normal vector with mean $\mathbf {\bar m}$ (similarly defined) and covariance matrix given by $\text{Cov}[f_i(\mathbf x_l),f_j(\mathbf x_m)]= K_{ij}(\mathbf x_l,\mathbf x_m)$. 
+The Gaussian process is denoted:
+$$\mathbf f\sim \mathcal{GP}(\mathbf m, \mathbf  K)$$
+\end{definition}
+
+This definition of a vector Gaussian process naturally demonstrates that they may be thought of equivalently as more familiar scalar Gaussian processes.
+
+\begin{definition}[Squared exponential kernel]\label{SE}
+	This is the kernel used at all times in this paper (but any mean-differentiable kernel would do).
+$K_{SE}(\mathbf x,\mathbf x') = K_{SE}(\mathbf x - \mathbf x') = \sigma^2_f \exp\left(-\frac{1}{2\ell^2}\|\mathbf x-\mathbf x'\|_2^2\right)$
+
+\end{definition}
+
+\section{Linear constraints}
+\begin{definition}[Functional]
+	The definition of functional changes depending on the context, but in this paper, it is defined to be an object mapping a function to vector, like so:
+
+$$\mathscr F_\mathbf x: (\mathbb{R}^D\to\mathbb{R}^K)\to\mathbb{R}^L$$
+\end{definition}
+
+\begin{definition}[Operator]
+	Similarly, the definition of operator is not fixed in general. In this paper, it is defined to be any function where both the domain and codomain is a function space, like so:
+
+$$\mathscr F: (\mathbb{R}^D\to\mathbb{R}^K)\to(\mathbb{R}^D\to\mathbb{R}^L)$$
+
+We will typically require that the domain of both function spaces is the same to allow the natural relation between functionals and operators.
+\end{definition}
+
+\begin{remark}[Correspondence between functionals and operators]\label{remark}
+	A functional $\f$ naturally defines an operator:
+	\begin{align*}
+		\mathscr F \mathbf f:\mathbb{R}^D&\to\mathbb{R}^L\\
+		\mathscr F \mathbf f(\mathbf x)&\mapsto\f \mathbf f
+	\end{align*}
+
+	Similarly, an operator $\mathscr F$ naturally defines a functional:
+	\begin{align*}
+		\mathscr F_\mathbf x:(\mathbb{R}^D\to\mathbb{R}^K)&\to \mathbb{R}^L\\
+		\mathscr F_\mathbf x(\mathbf f)&\mapsto (\mathscr F \mathbf f)(\mathbf x)
+	\end{align*}
+
+	Therefore, the distinction between operator and functional is not too important. Nonetheless, we will attempt to be precise with our wording.
+\end{remark}
+
+\begin{definition}[Linear Functional]\label{linearfunctional}
+	 A linear functional is a function $\mathscr F_\mathbf x: (\mathbb{R}^D\to\mathbb{R}^K)\to\mathbb{R}^L$, such that for every $\mathbf x\in \mathbb{R}^D$ and $\lambda \in \mathbb{R}$:
+	\begin{enumerate}
+		\item $\mathscr{F}_{\mathbf x}(\lambda \mathbf f) = \lambda \mathscr{F}_\mathbf x (\mathbf f)$
+		\item $\mathscr{F}_\mathbf x(\mathbf f + \mathbf g) = \mathscr{F}_\mathbf x(\mathbf f) + \mathscr{F}_\mathbf x(\mathbf g)$
+	\end{enumerate}
+\end{definition}
+
+\begin{remark}[Linear operators as matrices]\label{matrix}
+	A linear operator may be defined as a $L\times K$ matrix, where each element is a scalar operator:
+	$$(\mathscr F f)_{l} = (\mathscr F)_{lk} f_k$$
+\end{remark}
+
+
+\begin{definition}[Linear constraint]
+	A linear constraint on a function $\mathbf f$ is given by $$\forall \mathbf x\in \mathbb{R}^D,\quad \mathscr F_\mathbf x \mathbf f =\mathbf 0$$ where $\mathscr F_\mathbf x$ is a linear functional.
+\end{definition}
+
+\begin{exmp}[Examples of linear constraints]\label{example}
+	The following examples illustrate the rich variety of problems which follow linear constraints.
+	\begin{enumerate}
+		\item Divergence-free vector field (for example, in the study of incompressible fluid flows):
+			$$\mathscr F_\mathbf x \mathbf f := \boldsymbol \nabla \cdot \mathbf f|_{\mathbf x} = 0.$$
+		\item Curl-free vector field (for example, in magnetic fields):
+			$$\f \mathbf f := \boldsymbol \nabla \times \mathbf f|_{\mathbf x} = \mathbf 0.$$
+		\item Constant integral (for example, for momentum or mass conservation):
+			$$\mathscr F_{\mathbf x} f:= \int_{x_1}^{x_2} f(z)\mathrm d z.$$
+		\item Evaluation at a point:
+			$$\f \mathbf f:= \mathbf f(\mathbf u(\mathbf x))=0$$
+			for some (possibly nonlinear) function $\mathbf u:\mathbb{R}^D\to\mathbb{R}^D$.
+		\item Many deep physical phenomena are described by linear PDEs. For example, the theory of gravitational waves in a vacuum involves solutions to the linearised Einstein equations:
+			$$\f h_{\mu\nu} := \frac{1}{2}(\partial _\sigma \partial _\mu h^\sigma_\nu + \partial_\sigma \partial _\nu h^\sigma_\mu - \partial _\mu \partial _\nu h - \square h_{\mu\nu} - \eta_{\mu\nu}\partial _\rho\partial _\lambda h^{\rho \lambda} + \eta_{\mu\nu}\square h)=0$$
+			where $h:=\eta^{\mu\nu}h_{\mu\nu}$ and $\square := \eta^{\mu\nu}\partial _\mu\partial _\nu.$ 
+		\item The Black-Scholes equation used for financial option pricing:
+			$$\f V:= \frac{\partial V}{\partial t} + \frac{1}{2} \sigma^2 S^2 \frac{\partial ^2 V}{\partial S^2} + rS \frac{\partial V}{\partial S} - rV =0$$
+			where $\mathbf x:=\begin{bmatrix}S\\t\end{bmatrix}$.
+	\end{enumerate}
+\end{exmp}
+
+\begin{exmp}[Non-examples of linear constraints]
+	The following non-examples show a few common nonlinear constraints, demonstrating the limitations of this method.
+	\begin{enumerate}
+		\item Simple pendulum:
+	$$\mathscr{F}_t \theta:= \frac{\partial ^2 \theta}{\partial t^2}\bigg|_t + \frac{g}{L}\sin(\theta(t))=0.$$
+\item The Fisher-KPP equation for reaction-diffusion systems:
+	$$\frac{\partial u}{\partial t} - D \frac{\partial ^2 u}{\partial x^2} = ru(1-u).$$
+	\end{enumerate}
+\end{exmp}
+
+\subsection{Linear operators acting on Gaussian processes}
+
+\begin{thm}\label{lineargp}
+	Given a linear operator $\mathscr F$ and a Gaussian process $\mathbf f\sim \mathcal{GP}(\mathbf m,\mathbf  K)$,
+	$$\mathscr F \mathbf f \sim \mathcal{GP}(\f \mathbf m, \f \mathbf K \mathscr{F}_{\mathbf x'}^\top)$$
+	where $(\f \mathbf K \mathscr{F}_{\mathbf x'}^\top)_{ij}:=(\f)_{ik}(\mathscr{F}_{\mathbf x'})_{jl} K_{kl}$\footnote{Note that all of the $\mathscr F$s here are operators rather than functionals. The notation is abused to make it clear which argument each operator acts on.}
+\end{thm}
+\begin{proof}
+	By definition, $\mathbf f$ is a Gaussian process if it is a joint Gaussian on any finite subset of its inputs.
+
+	The proof is given below for $f:\mathbb{R}^D\to\mathbb{R}$, but can be extended to higher output dimensions.
+	$f\sim \mathcal {GP}(m,K)$ is a Gaussian process if for any finite subset $\{\mathbf x_n\}_{n=1}^N$, 
+	$$\begin{bmatrix} f(\mathbf x_1)\\\vdots\\ f(\mathbf x_n) \end{bmatrix}\sim 
+	\mathcal N\left(
+	\begin{bmatrix} m(\mathbf x_1)\\\vdots\\ m(\mathbf x_n) \end{bmatrix},
+\begin{bmatrix} K(\mathbf x_1,\mathbf x_1) & \dots & K(\mathbf x_1,\mathbf x_n)\\ 
+\vdots & & \vdots \\
+K(\mathbf x_n,\mathbf x_1) & \dots & K(\mathbf x_n,\mathbf x_n)
+\end{bmatrix} \right)$$
+
+Since $\mathscr F$ is a linear operator, by \Cref{matrix}, it can be represented as a matrix of scalar operators. It is well-known that Gaussians are preserved under linear operations like so:
+	$$\mathscr F\begin{bmatrix} f(\mathbf x_1)\\\vdots\\ f(\mathbf x_n) \end{bmatrix}\sim 
+	\mathcal N\left(
+	\mathscr F\begin{bmatrix} m(\mathbf x_1)\\\vdots\\ m(\mathbf x_n) \end{bmatrix},
+\mathscr F \begin{bmatrix} K(\mathbf x_1,\mathbf x_1) & \dots & K(\mathbf x_1,\mathbf x_n)\\ 
+\vdots & & \vdots \\
+K(\mathbf x_n,\mathbf x_1) & \dots & K(\mathbf x_n,\mathbf x_n)
+\end{bmatrix} \mathscr F^\top
+\right)$$
+where $\mathscr F^\top$ acts on the second argument of $K$. Since this holds for any finite subset of $\mathbb{R}^D$, it follows that $\mathscr F f\sim \mathcal {GP}(\mathscr F m, \mathscr F K\mathscr F^\top)$.
+\end{proof}
+
+\section{Vector Gaussian Process Regression}
+We will cover Vector Gaussian Process Regression here briefly, in order to set up the following sections. A complete treatment may be found in \cite{alvarez}.
+
+This is a Bayesian framework of inference over function space. Therefore, we require a prior distribution over the functions and a likelihood distribution of the data given a particular function, viz.
+$$p(\mathbf f|\{\mathbf x,\mathbf y\}) = \frac{p(\{\mathbf y\}|\mathbf f,\{\mathbf x\})p(\mathbf f|\{\mathbf x\})}{p(\{\mathbf y\}|\{\mathbf x\})}$$
+where $\{\mathbf z\}$ is a shorthand for the training data, $\{\mathbf z_i\}_{i=1}^{N_T}$ and $\mathbf f$ is the function distribution. Each of the terms are described in greater detail below.
+
+\subsection{Prior}\label{prior}
+The prior distribution is a Gaussian process with mean and kernel function explicitly chosen. The mean function is typically chosen to be zero. [WHY]
+
+Explicitly:
+$$p(\mathbf f|\{\mathbf x\}) = \mathcal {GP}(\mathbf 0,\mathbf K)$$
+
+\subsection{Likelihood}\label{likelihood}
+The likelihood is assumed to be Gaussian. Following the convention in the definition of \hyperref[vectorGP]{Vector Gaussian Processes}, $\{\mathbf y\}$ can be flattened into a single vector, $\mathbf{\overline y}$. A similar convention is followed for $\mathbf{\overline {f(\mathbf x)}}$.
+$$ p(\{\mathbf y\}|\mathbf f, \{\mathbf x\}) = p\left(\mathbf{\overline y}| \mathbf{\overline {f(\mathbf x)}} \right) = \mathcal N(\mathbf{\overline {f(\mathbf x)}}, \sigma_n^2 \mathbf I_{NK}) $$
+
+\subsection{Posterior}\label{posterior}
+The posterior distribution is a Gaussian process, since a Gaussian process is a conjugate prior for a Gaussian likelihood, analogously to Bayesian inference for finite dimensional Gaussians. Explicitly writing out the posterior requires some tricky notation\footnote{See \hyperref[nomenclature]{Nomenclature} for details on matrix indexing.}, which we introduce first.
+
+\subsubsection{Notation}\label{notation}
+\begin{align*}
+	\mathbf{\overline K}: \mathbb{R}^D &\to \mathbb{R}^{N_TK\times K} \\
+	{\overline K}_{(n,k),k'}(\mathbf z) &\mapsto K_{k,k'}\left(\mathbf x_n, \mathbf z\right)  \\
+	\intertext{The following is also known as a Gram matrix:}
+	\mathbf{\overline{\overline K}}&\in \mathbb{R}^{N_TK\times N_TK}\\
+	{\overline{\overline K}}_{(n,k),(n',k')}&=K_{k,k'}(\mathbf x_n, \mathbf x_{n'})\\
+\end{align*}
+
+\subsubsection{Explicit posterior distribution}
+\begin{align*}
+	p(\mathbf f|\{\mathbf x,\mathbf y\}) &= \mathcal {GP}(\mathbf{\hat m},\mathbf{\hat  K})\\
+	\intertext{where}\\
+	\mathbf{\hat  m}: \mathbb{R}^D&\to\mathbb{R}^K\\
+	\mathbf{\hat  m}(\mathbf z)&\mapsto \mathbf{\overline K}(\mathbf z)^\top\left[\mathbf{\overline{\overline K}} + \sigma_n^2 \mathbf I_{NK}\right]^{-1}\mathbf{\overline y}\\
+	\intertext{and}\\
+	\mathbf{\hat K}: \mathbb{R}^D\times \mathbb{R}^D&\to\mathbb{R}^{K\times K}\\
+	\mathbf{\hat K}(\mathbf z,\mathbf z')&\mapsto \mathbf K(\mathbf z,\mathbf z') - \mathbf{\overline K}(\mathbf z)^\top\left[\mathbf{\overline{\overline K}} + \sigma_n^2 \mathbf I_{NK}\right]^{-1} \mathbf{\overline K}(\mathbf z')
+\end{align*}
+
+\subsection{Evidence}\label{evidence}
+As this is a conjugate prior, the evidence can be analytically determined. Explicitly:
+$$p(\{\mathbf y\}|\{\mathbf x\}) =p(\mathbf{\overline y} |\{\mathbf x\}) = \mathcal N(\mathbf 0, \mathbf{\overline{\overline K}} + \sigma^2 I_{NK})$$
+
+
+\section{Artificial Observations}
+One way to embed linear constraints into Gaussian processes is by enforcing the constraint at a finite number of points through \emph{artificial observations}. The dataset is extended by $N_c$ points, $\{ \mathbf{ \tilde x}_n,  \mathbf{ \tilde y}_n\}_{n=1}^{N_c}$, where $\mathbf{ \tilde y} = \mathscr F_{\mathbf{\tilde{x}}} \mathbf f = \mathbf 0$.
+
+By \Cref{lineargp}, we know how GPs are preserved under linear functionals. Therefore, applying the result to the following linear functional: $\begin{bmatrix} \mathbf I_{NK}\\\mathscr F \end{bmatrix}$, where $\mathbf I_{NK}$ is the identity functional, we have:
+
+$$\begin{bmatrix} \mathbf f\\\mathscr F \mathbf f \end{bmatrix}\sim \mathcal {GP}\left( \begin{bmatrix} \mathbf m\\ \mathscr F \mathbf m \end{bmatrix}, \begin{bmatrix} \mathbf  K & \mathbf K \mathscr{F}^\top \\ \mathscr F \mathbf K & \mathscr F \mathbf K \mathscr{F}^\top \end{bmatrix}  \right)  $$
+
+[PROOF PENDING...]
+
+Thus, this may form the prior for a joint Gaussian process including both the regular and artificial points. With this method, there is no need for $\f$ to be a linear functional, or for it to have zero forcing term, and so this method is very flexible. However, the constraints are only enforced at the artificial points. In addition, the most expensive part of optimisation and prediction is taking an inverse of the Gram matrix, an operation which scales as $\mathcal O(N^3)$ where $N$ is the number of training points, so artificially increasing the number of training points reduced performance greatly.
+
+\section{Custom Kernel}\label{custom}
+The proposed method in \cite{Jidling} encodes the linear constraint in a very different way. Here, the kernel function is carefully chosen so that any realisation of the Gaussian process definitely satisfies the linear constraint everywhere. These have been known for certain commonly used linear constraints for a long time (such as those discussed in this report). However, in the paper, a systematic method to derive such a kernel function is discussed. This is outlined below.
+
+The main idea is that if there exists a linear functional $\g:(\mathbb{R}^{D}\to\mathbb{R}^M)\to \mathbb{R}^K$, such that for every $\mathbf g:\mathbb{R}^D\to\mathbb{R}^M$ and every $\mathbf x\in \mathbb{R}^D$, $(\mathscr F\mathscr G)_\mathbf x\mathbf g=\mathbf 0$, then for any Gaussian process $\mathbf g\sim \mathcal {GP}(\mu_\mathbf g, K_\mathbf g)$, the Gaussian process $\mathscr G\mathbf g$ will satisfy the constraint everywhere. \Cref{lineargp} specifies this GP completely. So we are looking for some linear operator $\mathscr G$ such that:
+\begin{equation}\label{constraint}
+	\underset{L\times K}{\mathscr F}\underset{K\times M}{\mathscr G}=\mathbf 0
+\end{equation}
+
+This approach is very powerful, since it allows for a rich, explicit and interpretable specification of predicted functions.
+The GP $\mathbf g$ can be chosen with a kernel $K_\mathbf g$ to enforce desired properties such as smoothness and periodicity, for example by using the squared exponential kernel or by using the periodic kernel. Then the linear operator $\mathscr G$ enforces the required constraint.
+
+\subsection{\texorpdfstring{Finding $\mathscr G$}{Finding the operator G}}\label{findingG}
+The main aim of the paper is to provide a systematic way to find an operator $\mathscr G$ given a linear constraint. We outline this method below.
+
+The columns\footnote{using the \hyperref[matrix]{matrix definition of linear operators}.} of $\mathscr G$, denoted $\mathscr g:(\mathbb{R}^D\to\mathbb{R})\to\mathbb{R}^K$ must satisfy 
+\begin{equation}\label{Fg0}
+	\mathscr F \mathscr g = \mathbf 0
+\end{equation}
+
+The biggest assumption of this method is that both $\mathscr{F}$ and $\mathscr G$ are in the span of a finite basis of linear operators, denoted $\boldsymbol \xi$. For example, $\boldsymbol \xi = \{\frac{\partial}{\partial x_p}\}_{p=1}^P$. Thus we may write:
+\begin{align*}
+	\mathscr F_{lk} &= \Phi_{lkp} \xi_p\\
+	\mathscr g_k &= \Gamma_{kp} \xi_{p}
+\end{align*}
+where $\boldsymbol \Phi \in \mathbb{R}^{L\times K\times P}$ and $\boldsymbol \Gamma \in \mathbb{R}^{K\times P}$ are coefficient matrices. $\boldsymbol \Phi$ is known, and $\boldsymbol \Gamma$ needs to be found.
+
+Then, by \cref{Fg0}:
+\begin{align*}
+	\mathscr F_{lk}\mathscr g_k &= \Phi_{lkp}\xi_p\Gamma_{kp'}\xi_{p'}\\
+	&= \boldsymbol \xi^\top \boldsymbol \Phi_l \boldsymbol \Gamma \boldsymbol \xi\\
+	&= 0
+\end{align*}
+
+where $(\boldsymbol \Phi_l)_{pk}:=\Phi_{lkp}$. By \Cref{antisymmetry}, this implies that
+
+$$\boldsymbol \Phi_l \boldsymbol \Gamma + \boldsymbol \Gamma^\top \boldsymbol \Phi_l^\top=\mathbf 0$$
+
+This condition allows for every possible $\mathscr g$ that can be written in the basis $\boldsymbol \xi$ to be found. These can then be concatenated to make $\mathscr G$. 
+
+To summarise:
+
+\begin{algorithm}
+\caption{Finding $\mathscr G$}\label{findingGalg}
+	 \hspace*{\algorithmicindent} \textbf{Input:} Linear constraint $\mathscr F \mathbf f = \mathbf 0$. \\
+	 \hspace*{\algorithmicindent} \textbf{Output:} Custom GP that satisfies the constraint. 
+\begin{algorithmic}[1]
+	\State Choose a basis $\boldsymbol \xi$ of operators that $\mathscr G$ could be made of.
+	\State Write $\mathscr F_{lk} = \Phi_{lkp}\xi_p$ and $\mathscr g_k = \Gamma_{kp} \xi_p$.
+	\State Solve $\boldsymbol \Phi_l \boldsymbol \Gamma + \boldsymbol \Gamma^\top \boldsymbol \Phi_l^\top=\mathbf 0$.
+	\State Let $\mathscr G$ be a concatenation of linearly independent columns $\mathscr g$.
+	\State Choose a Gaussian process $\mathbf g\sim \mathcal{GP}(\mathbf m_\mathbf g, \mathbf K_\mathbf g)$ with desirable functional properties.
+	\State The GP $\mathscr G\mathbf g\sim \mathcal {GP}(\mathscr G\mathbf m_\mathbf g, \mathscr G \mathbf K_\mathbf g \mathscr G^\top)$ will satisfy the linear constraint.
+\end{algorithmic}
+\end{algorithm}
+
+
+This is the procedure in full generality, but is reproduced in the following sections for the specific linear constraints studied in this paper.
+
+\chapter{Reproduction of paper}
+
+\section{GPJax}
+\subsection{GPJax vs MATLAB}
+\paragraph{Different languages}
+In this reproduction, GPJax is used as the primary library in which to implement the construction, optimisation and prediction of Gaussian processes. This is in contrast to the original paper, which uses MATLAB. Since this is really a mathematics paper, reconstruction using a different language would would provide evidence that the empirical results are truly due to the improved inference rather than due to any quirk in programming language or implementation.
+
+\paragraph{Automatic differentiation}
+GPJax is a framework which is built on JAX, which is a library built for accelerator-oriented array computation, designed for high-performance numerical computing and large-scale machine learning\footnote{As described in the \href{https://jax.readthedocs.io/en/latest/}{JAX documentation}.}. In fact, a key difference between the two implementations is the use of automatic differentiation to optimise the marginal log-likelihood. Whereas the MATLAB code must explicitly encode the derivatives of the Marginal Log-Likelihood (MLL)\label{MLL}, resulting in extremely long files and error-prone code, code written in JAX does not need to explicitly provide derivatives with respect to variables. This makes the code more flexible, and amenable to new functions and extra variables.
+
+\paragraph{MATLAB}
+The MATLAB implementation was fast, but sometimes yielded strange results. This could be due to the random nature of the training data. [FILLIN]
+
+\subsection{Processing data}
+Initially each datum is of the form $(\mathbf x,\mathbf y)\in\mathbb{R}^D\times \mathbb{R}^K$.
+
+This is modified to $D$ measurements: $\{((\mathbf x, i), y_i)\}_{i=1}^D$. This ensures that the output is one dimensional, so the kernel function is scalar valued. Explicitly, denoting the matrix-valued kernel function as $\mathbf K$ and the scalar-valued kernel function as $\tilde K$:
+$$K_{ij}(\mathbf x,\mathbf x') = \tilde K((\mathbf x,i),(\mathbf x',j))$$
+This fully consistent with the definition of vector Gaussian processes (\Cref{vectorGP}), and allows for the GPJax framework to handle such systems.
+
+This means that if there are $N_T$ training data, this is effectively $N_TD$ training data in a scalar GP. If, in addition there are $N_c$ artificial inducing points, then there are $D(N_T+N_c)$ data. $N_c$ is typically much greater than $N_T$.
+
+\subsection{Optimisation}
+In GPR, the hyperparameters are the variables used to describe the \hyperref[prior]{prior} and \hyperref[likelihood]{likelihood} distributions. In particular this includes any parameters used to describe the prior kernel and $\sigma_n$.
+
+As this is a Bayesian framework, the hyperparameters may be optimised with respect to the Bayesian evidence, the logarithm of which is referred to as the MLL. By the section on GPR \hyperref[evidence]{evidence}, the MLL is:
+\begin{equation*}
+	\text{MLL} := \log p(\mathbf{\overline y}|\{\mathbf x\}) = -\frac{1}{2}\mathbf{\overline y}^\top \left[\mathbf{\overline{\overline K}} + \sigma_n^2 \mathbf I_{NK}\right]^{-1}\mathbf{\overline y} - \frac{1}{2}\log \det\left(\mathbf{\overline{\overline K}}\right) - \frac{n}{2}\log 2\pi
+\end{equation*}
+
+This is a standard loss function which is minimised; on of the benefits of the GPJax framework above MATLAB is that this function is provided by the library in the form of a \texttt{ConjugateMLL} object, and does not need to be explicitly specified.
+
+Importantly, this is not the same as the metric used to judge the performance of a model. These are detailed in \Cref{performance}.
+
+\subsubsection{BFGS}
+The first method of optimisation uses the BFGS algorithm [REF], implemented by default in \texttt{scipy.optimize.minimize}. This algorithm may be interpreted as an optimised version of Newton's method, whereby a function $f(\mathbf x)$ is optimised by the following update rule:
+$$\mathbf x_{k+1} \gets \mathbf x_k - [\boldsymbol \nabla^2 f (\mathbf x_k)]^{-1} \boldsymbol \nabla f(\mathbf x_k)$$
+
+It is modified such that once the direction of the step is determined, a line search is performed to determine the size of the step. In addition, the Hessian is not calculated directly every time, but accumulated using the gradient evaluations. The gradient is supplied through autodifferentiation in JAX.
+
+This is the optimisation used in MATLAB via the \texttt{fminunc} function. The gradients have to manually computed and passed to the function.
+
+\subsubsection{Adam}
+A popular optimisation algorithm in deep learning is Adam [REF]. It employs a stochastic gradient descent strategy, whereby a different subset of data is used to calculate the MLL at each step. This optimisation is employed with the \texttt{optax} package.
+
+\subsection{Comparison of Optimisation algorithms}
+Whilst Adam is far more used in deep learning due to its tendency to avoid local minima, in this application, it was not found to be any better at reducing the MLL. [FILLIN]
+
+\subsection{Standardised reproducibility testing}
+In order to compare the implementation in GPJax to the MATLAB implementation, the training and test data was standardised to a regular, noiseless selection, removing the randomness in the data. After that the hyperparameters were optimised in both code repositories, and the MLL and RMSE compared. This allowed for a robust method in which to test how well my implementation could reproduce the results of the paper. This can be enabled in the repository with the \texttt{--regular} flag.
+
+\subsection{Performance measurement}\label{performance}
+\subsubsection{RMSE}
+The primary method in which to measure performance of a model is the Root Mean Squared Error (RMSE)\label{RMSE}. Explicitly:
+\begin{equation*}\label{norm}
+	\text{RMSE}:=\sqrt{\frac{1}{N_PD}\sum_{n=1}^{N_P}\left\|\mathbf y_n-\mathbf f(\mathbf x_n)\right\|_2^2} 
+\end{equation*}
+This is a minor error in the primary paper code. They define the RMSE (correctly) without the factor of $D$ in the denominator, but implement the above definition in the code. In order to get consistent numbers to them, this error is kept intentionally.
+
+\subsubsection{NLPD}\label{NLPD}
+Another method in which to measure performance in probabilistic models such as this one is Negative Log Predictive Density (NLPD). If we let $p$ denote the \hyperref[posterior]{posterior} distribution:
+\begin{equation*}
+	\text{NLPD}:=-\sum_{n=1}^N \log p(\mathbf y_n|\mathcal D_T)
+\end{equation*}
+
+This is a measure of error rather than score (smaller is better).
+
+Interestingly, the two performance measurement metrics do not always agree.
+
+\section{2D example of a Divergence-Free kernel}
+\subsection{Latent function}
+As a proof of concept, the latent function is chosen to be a 2D divergence-free vector field, as in \Cref{example}:
+\begin{align*}
+	\mathbf f:\mathbb{R}^2&\to\mathbb{R}^2\\
+	\mathbf f(\mathbf x)&\mapsto \begin{bmatrix}e^{-a x_1 x_2}\left(a x_1 \sin \left(x_1 x_2\right)-x_1 \cos \left(x_1 x_2\right)\right)\\e^{-a x_1 x_2}\left(x_2 \cos \left(x_1 x_2\right)-a x_2 \sin \left(x_1 x_2\right)\right)\end{bmatrix}
+\end{align*}
+
+\subsection{Training set}
+We work with a simulated training dataset $\mathcal{D}_T = \{(\mathbf x_i, \mathbf y_i)\}_{i=1}^{N_T}$.
+\begin{itemize}
+	\item The inputs $\mathbf{x}$ are sampled uniformly on $[0, 4]\times [0,4]$.
+	\item The outputs are noisy observations: $\mathbf y = \mathbf f(\mathbf x)+\boldsymbol \varepsilon$, where $\boldsymbol \varepsilon \sim \mathcal N(\mathbf 0,\sigma^2 \mathbf I)$. 
+	\item Here, the noise is $\sigma =10^{-4}$ and the number of training points is $N_T=50$.
+\end{itemize}
+
+
+\subsection{Test set}
+The test dataset is denoted $\mathcal{D}_P = \{(\mathbf x_i, \mathbf y_i)\}_{i=1}^{N_P}$.
+\begin{itemize}
+	\item The inputs are a uniform $20\times 20$ grid on $[0,4]\times [0,4]$
+	\item The outputs are noiseless evaluations of the latent function. 
+	\item The number of prediction points is $N_P=400$.
+\end{itemize}
+
+\subsection{Visualisation of data}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{2DSimulationData}
+	\caption{2D simulated data, using a divergence free function. The red arrows are the train set and the grey arrows are the test set.}
+\end{figure}
+
+\subsection{Custom kernel Derivation}
+We will follow the same procedure used in \Cref{custom}. The basis considered here is $\boldsymbol \xi = \{\frac{\partial}{\partial x_i}\}_{i=1}^2$.
+
+$$\mathscr F = \left[ \frac{\partial }{\partial x_1}\quad \frac{\partial }{\partial x_2} \right]\implies \boldsymbol \Phi_1 = \begin{bmatrix} 1&0\\0&1 \end{bmatrix} $$
+
+By the notation introduced in \Cref{custom}, have 
+\begin{alignat*}{2}
+	\quad&&\boldsymbol \Phi_1\boldsymbol \Gamma + \boldsymbol \Gamma ^\top \boldsymbol \Phi_1^\top&=\mathbf 0\\
+	\implies&&\begin{bmatrix} 2\Gamma_{11}&\Gamma_{12}+\Gamma_{21}\\\Gamma_{21}+\Gamma_{12}&2\Gamma_{22} \end{bmatrix} &=\mathbf 0\\
+	\implies&&\boldsymbol \Gamma &= \lambda\begin{bmatrix} 0 & -1\\1&0 \end{bmatrix}
+\end{alignat*}
+
+Therefore, have $\mathscr G = \begin{bmatrix} -\frac{\partial}{\partial x_2}\\\frac{\partial}{\partial x_1} \end{bmatrix} $. By \Cref{lineargp}, we have that for any mean-differentiable $g\sim \mathcal {GP}(m_ g, K_ g)$:
+\begin{align*}
+	\mathscr G  g &\sim \mathcal {GP}\left( \mathscr G m_\mathbf g, \mathscr G K_ g \mathscr G^\top \right)\\
+	\mathscr G g &\sim \mathcal {GP}\left( 
+	\begin{bmatrix} -\frac{\partial}{\partial x_2}\\\frac{\partial}{\partial x_1} \end{bmatrix} m_g, 
+		\begin{bmatrix} \frac{\partial^2}{\partial x_2 x_2'} & - \frac{\partial ^2}{\partial x_2x_1'}\\-\frac{\partial^2}{\partial x_1 x_2'} & \frac{\partial ^2}{\partial x_1 x_1'} \end{bmatrix} K_g(\mathbf x,\mathbf x') 
+\right)\\
+\end{align*}
+
+For example, here a squared exponential (SE) kernel (\Cref{SE}) is used with zero mean. Since it is an stationary kernel, $\frac{\partial}{\partial x_d} K_{SE}(\mathbf x- \mathbf x') = -\frac{\partial}{\partial x_d'}K_{SE}(\mathbf x-\mathbf x')$, therefore, we have:
+$$\mathscr G \mathbf g \sim \mathcal {GP}\left( \mathbf 0, \begin{bmatrix} \frac{1}{\ell^2}-\frac{x_2^2}{\ell^4} & \frac{x_1x_2}{\ell^4}\\ \frac{x_1x_2}{\ell^4} & \frac{1}{\ell^2}-\frac{x_1^2}{\ell^4} \end{bmatrix} \sigma_f^2 \exp\left( -\frac{1}{2\ell^2}\|\mathbf x-\mathbf x'\|_2^2 \right)  \right) $$
+
+\subsection{Optimisation}
+In every example, the BFGS algorithm is used to optimise the MLL. Oftentimes, the algorithm does not terminate due to precision loss, however they are good enough, and match the MATLAB code.
+
+\subsection{Regular training points}
+In order to test how well the implementation matches the MATLAB implementation in the original paper, a regular grid of 49 points was selected for train points. This set of training points is actually a great way to visualise the different kernels. 
+
+\subsubsection{Diagonal kernel}
+The diagonal kernel is completely ignorant to the divergence-free constaint, so naturally creates impossible flows, seen in \Cref{regdiag}. Since the GP was trained with a zero mean function (which is a common practice when there is no prior information in the data), the GP predicts zero far from the training points. There are issues with very large flows being predict near very small flows, as might be expected. Here the RMSE is 1.4056. For reference, predicting zero everywhere gives and RMSE of [NUMBER].
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.99\textwidth]{regular_DiagonalKernel}
+	\caption{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Diagonal Kernel. Right: The residuals.}
+	\label{regdiag}
+\end{figure}
+
+\subsubsection{Artificial kernel}
+The artificial kernel introduces the linear constraint locally to artificially introduced, randomly selected points. \Cref{regartif50} was produced with 50 artificial points, and \Cref{regartif400} with 400. Interestingly, when the train points are regular, enforcing the constraint at every test point does not produce very good results, with an RMSE of 1.3782. This demonstrates the importance of enforcing the linear constraint throughout the domain, as well as how local the effect of these artificial points can be.
+
+It should also be noted that the artificial points increase the size of the dataset greatly (the original dataset has 50 points and with every test point included as an artificial point, the training dataset has 450 points).
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.99\textwidth]{regular_ArtificialKernel,N_c=50}
+	\caption{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 50 artificial points. Right: The residuals.}
+	\label{regartif50}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.99\textwidth]{regular_ArtificialKernel,N_c=400}
+	\caption{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 400 artificial points. Right: The residuals.}
+	\label{regartif400}
+\end{figure}
+
+\subsubsection{Custom kernel}
+The custom kernel performs extremely well on regular train points, outperforming both other kernels with an RMSE of 0.2566. It is able to use the information of a divergence-free globally.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.99\textwidth]{regular_Divergence-freeKernel}
+	\caption{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with the custom, divergence-free kernel. Right: The residuals.}
+\end{figure}
+
+\clearpage
+\subsection{Random training points}
+Example fits for a random selection of training points are given below, for each of the kernels. Interestingly, the diagonal kernel and artificial kernels perform far better with random training points, whereas the custom kernel tends to perform worse.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.99\textwidth]{DiagonalKernel}
+	\caption{Random training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Diagonal Kernel. Right: The residuals.}
+	\label{diag}
+\end{figure}
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.99\textwidth]{ArtificialKernel,N_c=50}
+	\caption{Random training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 50 artificial points. Right: The residuals.}
+	\label{artif50}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.99\textwidth]{ArtificialKernel,N_c=400}
+	\caption{Random training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 400 artificial points. Right: The residuals.}
+	\label{artif400}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.99\textwidth]{Divergence-freeKernel}
+	\caption{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with the custom, divergence-free kernel. Right: The residuals.}
+\end{figure}
+
+\clearpage
+\subsection{Aggregate results over 50 runs}
+
+In order to get some idea for the performance over different random training datasets, 50 runs were performed. \Cref{rmse2d} shows the RMSE for various numbers of artificial points and is a reproduction of Figure 3(a) in the primary paper. \Cref{nlpd2d} shows the NLPD for various numbers of artificial points.
+ 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{RMSE_2D}
+	\caption{RMSE aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
+	\label{rmse2d}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{NLPD_2D}
+	\caption{NLPD aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
+	\label{nlpd2d}
+\end{figure}
+
+\section{3D example of a Curl-Free kernel}
+In order to demonstrate the different kernels in a real dataset, the primary paper performs an experiment, whereby a magnetic sensor is moved around a magnetically distorted indoor environment.
+
+\subsection{Latent function}
+By Maxwell's equations, the curl of a magnetic field follows \cref{maxwell}. In this environment, where there is no electric field or current present, the magnetic field is curl-free.
+
+\begin{equation}\label{maxwell}
+	\nabla\times \mathbf B = \mu_0\left( \mathbf J+\varepsilon_0 \frac{\partial E}{\partial t}  \right) 
+\end{equation}
+
+\subsection{Training set}
+We work with time series data with 16782 entries of the position of the magnetic sensor, and the detected direction of the magnetic field. The time is irrelevant, so is discarded. The training data consists of 500 uniformly sampled points.
+
+\subsection{Test set}
+The test data consists of 1000 uniformly sampled points.
+
+\subsection{Visualisation of data}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{observed_path_3D_colours}
+	\caption{3D observation of data. The magnitude of observed magnetic field is coloured}
+\end{figure}
+
+\subsection{Custom kernel}
+We will follow the same procedure used in \Cref{custom}. The basis considered here is $\boldsymbol \xi = \{\frac{\partial}{\partial x_i}\}_{i=1}^3$.
+
+$$\mathscr F = \begin{bmatrix} 0 & \frac{\partial}{\partial x_3} & -\frac{\partial}{\partial x_2} \\ -\frac{\partial}{\partial x_3} & 0 & \frac{\partial}{\partial x_1} \\ \frac{\partial}{\partial x_2} & -\frac{\partial}{\partial x_1} & 0 \end{bmatrix}$$
+
+This gives us the following coefficient matrices:
+$$\boldsymbol \Phi_1 = \begin{bmatrix}  0&0&0\\0&0&-1\\0&1&0 \end{bmatrix} , \boldsymbol \Phi_2 = \begin{bmatrix} 0&0&1\\0&0&0\\-1&0&0 \end{bmatrix}, \boldsymbol \Phi_3 = \begin{bmatrix} 0&-1&0\\1&0&0\\0&0&0 \end{bmatrix}$$
+
+By the notation introduced in \Cref{custom}, have 
+\begin{alignat*}{2}
+	\quad&&\boldsymbol \Phi_l\boldsymbol \Gamma + \boldsymbol \Gamma ^\top \boldsymbol \Phi_l^\top&=\mathbf 0\\
+	\implies&&\boldsymbol \Gamma &= \lambda \mathbf I_3
+\end{alignat*}
+
+Therefore, have $\mathscr G = \begin{bmatrix} \frac{\partial}{\partial x_1} \\ \frac{\partial}{\partial x_2}\\\frac{\partial}{\partial x_3}\end{bmatrix} = \boldsymbol\nabla$. By \Cref{lineargp}, we have that for any mean-differentiable $g\sim \mathcal {GP}(m_g, K_g)$:
+\begin{align*}
+	\mathscr G g &\sim \mathcal {GP}\left( \mathscr G m_g, \mathscr G K_g \mathscr G^\top \right)\\
+	\mathscr G g &\sim \mathcal {GP}\left( 
+\begin{bmatrix} \frac{\partial}{\partial x_1} \\ \frac{\partial}{\partial x_2}\\\frac{\partial}{\partial x_3}\end{bmatrix} m_g,
+		\mathbf H K_g(\mathbf x,\mathbf x') 
+\right)
+\end{align*}
+where $H_{ij}:=\frac{\partial^2}{\partial x_ix_j'}$
+
+\subsection{Regular points}
+
+\subsection{Random points}
+
+\subsection{Issues with GPJax}
+During this process, an issue with GPJax was discovered. In particular, the prediction procedure took a very long [NUM] time past a certain number of artificial points. This is unexpected, since it only involves taking the inverse of the Gram matrix once, and the computational complexity shouldn't discontinuously jump like this. This is because the library used to do the linear algebra (CoLA), implements a different algorithm for large matrix inversion, called the Conjugate Gradient method. It is an iterative procedure for inverting large positive semi-definite matrices, and for this reason it takes far longer than the procedure for Cholesky decomposition, and does not necessarily achieve the minimum. However, for very large matrices Cholesky is bad for some reason [FILLIN]. However, the threshold for a "large matrix" is fairly low, at about 1000.
+
+This highlights a greater issue with artificial points. Including all 1000 test points as artificial points means that the Gram matrix has size $3 \times (1000 + 500)=4500$, which is towards the limits of what can numerically stably inverted in a reasonable time. It is also important to note that every evaluation of the MLL also includes a matrix inversion.
+
+[Cholesky vs LU]
+
+\subsection{Aggregate performance over 50 trials}
+
+Once again, 50 trials were performed with different training data in order to get an idea for the distribution. \Cref{rmse2d} shows the RMSE for various numbers of artificial points and is a reproduction of Figure 3(a) in the primary paper. \Cref{nlpd2d} shows the NLPD for various numbers of artificial points.
+
+These fits took a far longer time, around 2 minutes per cycle.
+ 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{RMSE_3D}
+	\caption{RMSE aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
+	\label{rmse3d}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{NLPD_3D}
+	\caption{NLPD aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
+	\label{nlpd3d}
+\end{figure}
+
+\section{Going further}
+The two kernels considered in this paper were already known, but rederived using the procedure in [REF]. This procedure is very flexible and general, but does face some problems. The resulting matrix $\mathscr G$ is sometimes very high dimensional, requiring $\mathbf g$ to be generated from a high-dimensional GP. This can sometimes be very computationally inefficient. As an example, we consider harmonic functions.
+
+\subsection{Harmonic functions}
+\begin{equation*}
+	\mathscr F f = \nabla^2 f= \frac{\partial ^2f}{\partial x_1^2} + \frac{\partial ^2f}{\partial x_2^2}+\frac{\partial ^2f}{\partial x_3^2} =0
+\end{equation*}
+
+Here there are second derivatives the basis is $\mathcal P_{2,3}^{1\times 1}$, which is the space of homogeneous polynomials in $\left\{\frac{\partial}{\partial x_i}\right\}_{i=1}^3$
+
+Writing $\mathscr F_\mathbf x:(\mathbb{R}^3\to\mathbb{R}^1)\to \mathbb{R}^1$ as a vector:
+
+$\mathscr F_{11} = \phi_{11k_1k_2}\xi_{k_1}\xi_{k_2}$
+
+$\phi_{11k_1k_2} = \delta_{k_1k_2}$
+
+The antisymmetry condition yields an algebraic form:
+$\sum_{k_1}\phi_{11k_1k_2} \gamma_{1d_{q+1}\dots d_{l_1l_2}}$
+
+This, however, results in the following constraints:
+
+Which is just one constraint in what is effectively a nine by nine matrix.
+
+Therefore this technique works better when the functional returns a matrix. This allows for greater constraints, and so $\mathcal G$ has less columns. This means that the GP $\mathbf g$ does not need to be sampled from a very high dimensional GP.
+
+\chapter{Summary and conclusions}
+
+In summary, in this report, we reproduced the results in the primary paper. Enforcing the linear constraint in the kernel allows it to be enforced globally, and with low computational cost.
+
+The results have been faithfully produced, using the same technique but in a different library. Reproducbility was confirmed by creating deterministic regular points and comparing log-likelihoods. Similar results were achieved using different optimisation techniques.
+
+\label{lastcontentpage} % end page count here
+
+\printbibliography
+
+\appendix
+
+\chapter{Proofs}
+\begin{thm}[Antisymmetry condition]\label{antisymmetry}
+	$M$ is antisymmetric if and only if $\boldsymbol \xi^\top M\boldsymbol \xi=0$ for every vector $\boldsymbol \xi$ in a finite dimensional vector space.
+\end{thm}
+\begin{proof}
+	The forward direction:
+	
+	If $M$ is antisymmetric then:
+	$$\boldsymbol \xi^\top M \boldsymbol \xi = \boldsymbol \xi^\top M^\top \boldsymbol \xi = -\boldsymbol \xi^\top M\boldsymbol \xi\implies \boldsymbol \xi^\top M \boldsymbol \xi=0$$
+
+	The first equality follows from the fact that transposing a scalar quantity does not change it. The second equality uses the antisymmetry assumption.
+
+	The backward direction:
+	Since this is a finite dimensional vector space, we can consider consider two (possibly identical) basis vectors $\mathbf e_i$ and $\mathbf e_j$. Then, by assumption:
+	$$(\mathbf e_i+\mathbf e_j)^\top M (\mathbf e_i + \mathbf e_j) = \mathbf e_i^\top M \mathbf e_i + \mathbf e_i^\top M \mathbf e_j + \mathbf e_j^\top M \mathbf e_i +\mathbf e_j^\top M \mathbf e_j=0$$
+	But by assumption, the first and last terms in the sum are zero. Also, $\mathbf e_i^\top M \mathbf e_j=M_{ij}$ by definition, so we have:
+	$$\forall i,j:M_{ij}=-M_{ji}, M_{ii}=0$$
+	So that $M$ is antisymmetric.
+\end{proof}
+
+\label{lastpage}
+\end{document}

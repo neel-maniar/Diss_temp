@@ -1,0 +1,42 @@
+0
+Diagonal kernel
+Optimization terminated successfully.
+         Current function value: -2358.799454
+         Iterations: 10
+         Function evaluations: 18
+         Gradient evaluations: 18
+Length of history:  11
+Initial: σ_n, l, σ_f: [0.02, 0.5, 0.7071067811865476]
+Initial MLL: -1866.524288914181
+Final: σ_n, l, σ_f: [0.01765306846971335, 0.6480647852683571, 0.49339569650523335]
+Final MLL: -2358.799453546612
+0.04159168307471273
+
+Curl-free kernel
+Optimization terminated successfully.
+         Current function value: -2480.044755
+         Iterations: 10
+         Function evaluations: 17
+         Gradient evaluations: 17
+Length of history:  11
+Initial: σ_n, l, σ_f: [0.02, 0.5, 0.7071067811865476]
+Initial MLL: -1795.6495743043595
+Final: σ_n, l, σ_f: [0.021743030343008642, 0.7378904046198542, 0.7111647796555643]
+Final MLL: -2480.0447549795003
+0.033327691336182116
+Collocation points: 10
+0.04157294104741575
+Collocation points: 19
+0.04162390220174426
+Collocation points: 37
+0.04158815619855831
+Collocation points: 72
+0.04155464730965966
+Collocation points: 139
+0.04130930757033427
+Collocation points: 268
+0.03950518831687197
+Collocation points: 518
+0.039374760191735005
+Collocation points: 1000
+0.037572143132237834
