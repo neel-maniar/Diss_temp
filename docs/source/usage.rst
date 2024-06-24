@@ -1,12 +1,20 @@
 Usage
 =====
+
 .. _installation:
 
 Installation
 ------------
 
-To run code in the dissertation, first install the dependencies using conda:
+To use Lumache, first install it using pip:
 
 .. code-block:: console
 
-   $ conda env create -f environment.yml
+   (.venv) $ pip install lumache
+
+Creating recipes
+----------------
+
+To retrieve a list of random ingredients,
+you can use the ``lumache.get_random_ingredients()`` function:
+
