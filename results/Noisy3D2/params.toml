@@ -1,0 +1,9 @@
+regular = false
+optimiser = "scipy"
+nrRepeat = 50
+plot = false
+noise = 0.01
+N_train = 500
+N_test = 1000
+name = "Noisy3D2"
+N_c_list = [ 10, 19, 37, 72, 139, 268, 518, 1000,]

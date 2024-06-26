@@ -1,0 +1,9 @@
+regular = false
+optimiser = "scipy"
+nrRepeat = 1
+plot = false
+noise = 0.0001
+N_train = 500
+N_test = 1000
+name = "test"
+N_c_list = [ 10, 19, 37, 72, 139, 268, 518, 1000,]
