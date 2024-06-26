@@ -1,0 +1,21 @@
+name: gp
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - matplotlib
+  - pandas
+  - pip
+  - pre-commit
+  - python=3.10.14
+  - toml
+  - pip:
+      - furo
+      - gpjax==0.8.2
+      - jax==0.4.28
+      - jaxlib==0.4.28
+      - jaxopt==0.8.3
+      - jaxtyping==0.2.28
+      - numpy
+      - sphinx==7.3.7
+      - tqdm

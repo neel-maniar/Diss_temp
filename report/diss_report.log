@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.12.19)  18 JUN 2024 23:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.12.19)  26 JUN 2024 20:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -413,11 +413,30 @@ Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
 \ALG@tmplength=\skip59
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
+) (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen164
+\lightrulewidth=\dimen165
+\cmidrulewidth=\dimen166
+\belowrulesep=\dimen167
+\belowbottomsep=\dimen168
+\aboverulesep=\dimen169
+\abovetopsep=\dimen170
+\cmidrulesep=\dimen171
+\cmidrulekern=\dimen172
+\defaultaddspace=\dimen173
+\@cmidla=\count299
+\@cmidlb=\count300
+\@aboverulesep=\dimen174
+\@belowrulesep=\dimen175
+\@thisruleclass=\count301
+\@lastruleclass=\count302
+\@thisrulewidth=\dimen176
 ) (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.sty
 Package: biblatex 2023/03/05 v3.19 programmable bibliographies (PK/MW)
 (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count299
+\lrq@indent=\count303
 
 (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
@@ -434,49 +453,49 @@ l.212 \blx@packageincompatibility
                                  
 The 'backref' package and biblatex are incompatible.
 
-\c@tabx@nest=\count300
-\c@listtotal=\count301
-\c@listcount=\count302
-\c@liststart=\count303
-\c@liststop=\count304
-\c@citecount=\count305
-\c@citetotal=\count306
-\c@multicitecount=\count307
-\c@multicitetotal=\count308
-\c@instcount=\count309
-\c@maxnames=\count310
-\c@minnames=\count311
-\c@maxitems=\count312
-\c@minitems=\count313
-\c@citecounter=\count314
-\c@maxcitecounter=\count315
-\c@savedcitecounter=\count316
-\c@uniquelist=\count317
-\c@uniquename=\count318
-\c@refsection=\count319
-\c@refsegment=\count320
-\c@maxextratitle=\count321
-\c@maxextratitleyear=\count322
-\c@maxextraname=\count323
-\c@maxextradate=\count324
-\c@maxextraalpha=\count325
-\c@abbrvpenalty=\count326
-\c@highnamepenalty=\count327
-\c@lownamepenalty=\count328
-\c@maxparens=\count329
-\c@parenlevel=\count330
-\blx@tempcnta=\count331
-\blx@tempcntb=\count332
-\blx@tempcntc=\count333
-\c@blx@maxsection=\count334
-\blx@maxsegment@0=\count335
-\blx@notetype=\count336
-\blx@parenlevel@text=\count337
-\blx@parenlevel@foot=\count338
-\blx@sectionciteorder@0=\count339
-\blx@sectionciteorderinternal@0=\count340
-\blx@entrysetcounter=\count341
-\blx@biblioinstance=\count342
+\c@tabx@nest=\count304
+\c@listtotal=\count305
+\c@listcount=\count306
+\c@liststart=\count307
+\c@liststop=\count308
+\c@citecount=\count309
+\c@citetotal=\count310
+\c@multicitecount=\count311
+\c@multicitetotal=\count312
+\c@instcount=\count313
+\c@maxnames=\count314
+\c@minnames=\count315
+\c@maxitems=\count316
+\c@minitems=\count317
+\c@citecounter=\count318
+\c@maxcitecounter=\count319
+\c@savedcitecounter=\count320
+\c@uniquelist=\count321
+\c@uniquename=\count322
+\c@refsection=\count323
+\c@refsegment=\count324
+\c@maxextratitle=\count325
+\c@maxextratitleyear=\count326
+\c@maxextraname=\count327
+\c@maxextradate=\count328
+\c@maxextraalpha=\count329
+\c@abbrvpenalty=\count330
+\c@highnamepenalty=\count331
+\c@lownamepenalty=\count332
+\c@maxparens=\count333
+\c@parenlevel=\count334
+\blx@tempcnta=\count335
+\blx@tempcntb=\count336
+\blx@tempcntc=\count337
+\c@blx@maxsection=\count338
+\blx@maxsegment@0=\count339
+\blx@notetype=\count340
+\blx@parenlevel@text=\count341
+\blx@parenlevel@foot=\count342
+\blx@sectionciteorder@0=\count343
+\blx@sectionciteorderinternal@0=\count344
+\blx@entrysetcounter=\count345
+\blx@biblioinstance=\count346
 \labelnumberwidth=\skip60
 \labelalphawidth=\skip61
 \biblabelsep=\skip62
@@ -488,9 +507,9 @@ The 'backref' package and biblatex are incompatible.
 \blx@bcfin=\read2
 \blx@bcfout=\write3
 \blx@langwohyphens=\language79
-\c@mincomprange=\count343
-\c@maxcomprange=\count344
-\c@mincompwidth=\count345
+\c@mincomprange=\count347
+\c@maxcomprange=\count348
+\c@mincompwidth=\count349
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-dm.def
@@ -500,74 +519,74 @@ Package biblatex Info: Trying to load biblatex style data model...
 Package biblatex Info: ... file 'authoryear-icomp.dbx' not found.
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count346
-\c@savedafterword=\count347
-\c@annotator=\count348
-\c@savedannotator=\count349
-\c@author=\count350
-\c@savedauthor=\count351
-\c@bookauthor=\count352
-\c@savedbookauthor=\count353
-\c@commentator=\count354
-\c@savedcommentator=\count355
-\c@editor=\count356
-\c@savededitor=\count357
-\c@editora=\count358
-\c@savededitora=\count359
-\c@editorb=\count360
-\c@savededitorb=\count361
-\c@editorc=\count362
-\c@savededitorc=\count363
-\c@foreword=\count364
-\c@savedforeword=\count365
-\c@holder=\count366
-\c@savedholder=\count367
-\c@introduction=\count368
-\c@savedintroduction=\count369
-\c@namea=\count370
-\c@savednamea=\count371
-\c@nameb=\count372
-\c@savednameb=\count373
-\c@namec=\count374
-\c@savednamec=\count375
-\c@translator=\count376
-\c@savedtranslator=\count377
-\c@shortauthor=\count378
-\c@savedshortauthor=\count379
-\c@shorteditor=\count380
-\c@savedshorteditor=\count381
-\c@labelname=\count382
-\c@savedlabelname=\count383
-\c@institution=\count384
-\c@savedinstitution=\count385
-\c@lista=\count386
-\c@savedlista=\count387
-\c@listb=\count388
-\c@savedlistb=\count389
-\c@listc=\count390
-\c@savedlistc=\count391
-\c@listd=\count392
-\c@savedlistd=\count393
-\c@liste=\count394
-\c@savedliste=\count395
-\c@listf=\count396
-\c@savedlistf=\count397
-\c@location=\count398
-\c@savedlocation=\count399
-\c@organization=\count400
-\c@savedorganization=\count401
-\c@origlocation=\count402
-\c@savedoriglocation=\count403
-\c@origpublisher=\count404
-\c@savedorigpublisher=\count405
-\c@publisher=\count406
-\c@savedpublisher=\count407
-\c@language=\count408
-\c@savedlanguage=\count409
-\c@origlanguage=\count410
-\c@savedoriglanguage=\count411
-\c@pageref=\count412
-\c@savedpageref=\count413
+\c@afterword=\count350
+\c@savedafterword=\count351
+\c@annotator=\count352
+\c@savedannotator=\count353
+\c@author=\count354
+\c@savedauthor=\count355
+\c@bookauthor=\count356
+\c@savedbookauthor=\count357
+\c@commentator=\count358
+\c@savedcommentator=\count359
+\c@editor=\count360
+\c@savededitor=\count361
+\c@editora=\count362
+\c@savededitora=\count363
+\c@editorb=\count364
+\c@savededitorb=\count365
+\c@editorc=\count366
+\c@savededitorc=\count367
+\c@foreword=\count368
+\c@savedforeword=\count369
+\c@holder=\count370
+\c@savedholder=\count371
+\c@introduction=\count372
+\c@savedintroduction=\count373
+\c@namea=\count374
+\c@savednamea=\count375
+\c@nameb=\count376
+\c@savednameb=\count377
+\c@namec=\count378
+\c@savednamec=\count379
+\c@translator=\count380
+\c@savedtranslator=\count381
+\c@shortauthor=\count382
+\c@savedshortauthor=\count383
+\c@shorteditor=\count384
+\c@savedshorteditor=\count385
+\c@labelname=\count386
+\c@savedlabelname=\count387
+\c@institution=\count388
+\c@savedinstitution=\count389
+\c@lista=\count390
+\c@savedlista=\count391
+\c@listb=\count392
+\c@savedlistb=\count393
+\c@listc=\count394
+\c@savedlistc=\count395
+\c@listd=\count396
+\c@savedlistd=\count397
+\c@liste=\count398
+\c@savedliste=\count399
+\c@listf=\count400
+\c@savedlistf=\count401
+\c@location=\count402
+\c@savedlocation=\count403
+\c@organization=\count404
+\c@savedorganization=\count405
+\c@origlocation=\count406
+\c@savedoriglocation=\count407
+\c@origpublisher=\count408
+\c@savedorigpublisher=\count409
+\c@publisher=\count410
+\c@savedpublisher=\count411
+\c@language=\count412
+\c@savedlanguage=\count413
+\c@origlanguage=\count414
+\c@savedoriglanguage=\count415
+\c@pageref=\count416
+\c@savedpageref=\count417
 \shorthandwidth=\skip68
 \shortjournalwidth=\skip69
 \shortserieswidth=\skip70
@@ -592,19 +611,19 @@ Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
  (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.def
 File: biblatex.def 2023/03/05 v3.19 biblatex compatibility (PK/MW)
-\c@textcitecount=\count414
-\c@textcitetotal=\count415
-\c@textcitemaxnames=\count416
-\c@biburlbigbreakpenalty=\count417
-\c@biburlbreakpenalty=\count418
-\c@biburlnumpenalty=\count419
-\c@biburlucpenalty=\count420
-\c@biburllcpenalty=\count421
+\c@textcitecount=\count418
+\c@textcitetotal=\count419
+\c@textcitemaxnames=\count420
+\c@biburlbigbreakpenalty=\count421
+\c@biburlbreakpenalty=\count422
+\c@biburlnumpenalty=\count423
+\c@biburlucpenalty=\count424
+\c@biburllcpenalty=\count425
 \biburlbigskip=\muskip18
 \biburlnumskip=\muskip19
 \biburlucskip=\muskip20
 \biburllcskip=\muskip21
-\c@smartand=\count422
+\c@smartand=\count426
 )
 Package biblatex Info: Trying to load bibliography style 'authoryear-icomp'...
 Package biblatex Info: ... file 'authoryear-icomp.bbx' found.
@@ -625,8 +644,8 @@ Package biblatex Info: ... file 'standard.bbx' found.
 (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/bbx\standard.b
 bx
 File: standard.bbx 2023/03/05 v3.19 biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count423
-\c@bbx:relatedtotal=\count424
+\c@bbx:relatedcount=\count427
+\c@bbx:relatedtotal=\count428
 )))
 Package biblatex Info: Trying to load citation style 'authoryear-icomp'...
 Package biblatex Info: ... file 'authoryear-icomp.cbx' found.
@@ -662,7 +681,7 @@ Package: expl3 2023-12-08 L3 programming layer (loader)
 (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2023-11-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count425
+\l__color_backend_stack_int=\count429
 \l__pdf_internal_box=\box55
 ))
 Package biblatex Info: ... and expl3
@@ -678,33 +697,33 @@ Package: xparse 2023-10-10 L3 Experimental document command parser
 )
 Package: blx-case-expl3 2023/03/05 v3.19 expl3 case changing code for biblatex
 ))
-Package biblatex Info: Redefining '\cite' on input line 48.
-\c@thm=\count426
-\@quotelevel=\count427
-\@quotereset=\count428
+Package biblatex Info: Redefining '\cite' on input line 49.
+\c@thm=\count430
+\@quotelevel=\count431
+\@quotereset=\count432
  (diss_report.aux)
 \openout1 = `diss_report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-Package backref Info: ** backref set up for natbib ** on input line 70.
-Package hyperref Info: Link coloring ON on input line 70.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+Package backref Info: ** backref set up for natbib ** on input line 71.
+Package hyperref Info: Link coloring ON on input line 71.
  (diss_report.out) (diss_report.out)
 \@outlinefile=\write4
 \openout4 = `diss_report.out'.
@@ -713,16 +732,16 @@ Package hyperref Info: Link coloring ON on input line 70.
 (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count429
-\scratchdimen=\dimen164
+\scratchcounter=\count433
+\scratchdimen=\dimen177
 \scratchbox=\box56
-\nofMPsegments=\count430
-\nofMParguments=\count431
+\nofMPsegments=\count434
+\nofMParguments=\count435
 \everyMPshowfont=\toks35
-\MPscratchCnt=\count432
-\MPscratchDim=\dimen165
-\MPnumerator=\count433
-\makeMPintoPDFobject=\count434
+\MPscratchCnt=\count436
+\MPscratchDim=\dimen178
+\MPnumerator=\count437
+\makeMPintoPDFobject=\count438
 \everyMPtoPDFconversion=\toks36
 )
 (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
@@ -784,8 +803,8 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'diss_report.bbl' found.
  (diss_report.bbl)
-Package biblatex Info: Reference section=0 on input line 70.
-Package biblatex Info: Reference segment=0 on input line 70.
+Package biblatex Info: Reference section=0 on input line 71.
+Package biblatex Info: Reference segment=0 on input line 71.
 Package epstopdf Info: Source file: <CUni.eps>
 (epstopdf)                    date: 2024-06-05 16:04:46
 (epstopdf)                    size: 175618 bytes
@@ -794,44 +813,39 @@ Package epstopdf Info: Source file: <CUni.eps>
 (epstopdf)                    size: 60598 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=CUni-eps-converted-t
 o.pdf CUni.eps>
-(epstopdf)             \includegraphics on input line 76.
+(epstopdf)             \includegraphics on input line 77.
 Package epstopdf Info: Output file is already uptodate.
-<CUni-eps-converted-to.pdf, id=195, 330.23375pt x 69.25874pt>
+<CUni-eps-converted-to.pdf, id=203, 330.23375pt x 69.25874pt>
 File: CUni-eps-converted-to.pdf Graphic file (type pdf)
 <use CUni-eps-converted-to.pdf>
-Package pdftex.def Info: CUni-eps-converted-to.pdf  used on input line 76.
+Package pdftex.def Info: CUni-eps-converted-to.pdf  used on input line 77.
 (pdftex.def)             Requested size: 184.9429pt x 38.78885pt.
-<Emmanuel.pdf, id=196, 803.0pt x 919.435pt>
+<Emmanuel.pdf, id=204, 803.0pt x 919.435pt>
 File: Emmanuel.pdf Graphic file (type pdf)
 <use Emmanuel.pdf>
-Package pdftex.def Info: Emmanuel.pdf  used on input line 89.
+Package pdftex.def Info: Emmanuel.pdf  used on input line 90.
 (pdftex.def)             Requested size: 99.58464pt x 114.01717pt.
  [1
 
 {C:/Users/neelm/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./CUni-eps-c
 onverted-to.pdf> <./Emmanuel.pdf>] [2] [3
 
+] [4
+
 ]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 137
-.
+(diss_report.toc
+LaTeX Font Info:    Trying to load font information for U+msa on input line 1.
 
 (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 137
-.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
 
 (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \vbox (badness 5231) has occurred while \output is active []
-
- [4
-
-]
-[5] (diss_report.toc
 LaTeX Font Info:    Trying to load font information for U+boondoxuprscr on inpu
-t line 23.
+t line 24.
 
 (C:\Users\neelm\AppData\Local\Programs\MiKTeX\tex/latex/boondox\uboondoxuprscr.
 fd
@@ -839,241 +853,279 @@ File: uboondoxuprscr.fd 2017/02/22 Fontinst v1.933 font definitions for U/BOOND
 OXUprScr.
 )
 LaTeX Font Info:    Font shape `U/boondoxuprscr/m/n' will be
-(Font)              scaled to size 12.0pt on input line 23.
+(Font)              scaled to size 12.0pt on input line 24.
 LaTeX Font Info:    Font shape `U/boondoxuprscr/m/n' will be
-(Font)              scaled to size 8.0pt on input line 23.
+(Font)              scaled to size 8.0pt on input line 24.
 LaTeX Font Info:    Font shape `U/boondoxuprscr/m/n' will be
-(Font)              scaled to size 6.0pt on input line 23.
- [6
+(Font)              scaled to size 6.0pt on input line 24.
+ [5
 
 ])
 \tf@toc=\write5
 \openout5 = `diss_report.toc'.
 
- [7]
+ [6]
+Underfull \vbox (badness 5231) has occurred while \output is active []
+
+ [7
+
+]
+[8] (diss_report.lof)
+\tf@lof=\write6
+\openout6 = `diss_report.lof'.
+
+ [9
+
+]
 Chapter 1.
-[8
+[10
 
 ]
 Chapter 2.
-[9
+[11
 
 ]
 Chapter 3.
-[10
+[12
 
-] [11]
+] [13]
 LaTeX Font Info:    Font shape `U/boondoxuprscr/m/n' will be
-(Font)              scaled to size 10.0pt on input line 317.
+(Font)              scaled to size 10.0pt on input line 323.
 LaTeX Font Info:    Font shape `U/boondoxuprscr/m/n' will be
-(Font)              scaled to size 7.0pt on input line 317.
+(Font)              scaled to size 7.0pt on input line 323.
 LaTeX Font Info:    Font shape `U/boondoxuprscr/m/n' will be
-(Font)              scaled to size 5.0pt on input line 317.
- [12] [13] [14]
+(Font)              scaled to size 5.0pt on input line 323.
+ [14] [15] [16]
 LaTeX Font Info:    Font shape `U/boondoxuprscr/m/n' will be
-(Font)              scaled to size 14.4pt on input line 411.
- [15]
+(Font)              scaled to size 14.4pt on input line 422.
+ [17]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 442.
- [16]
+put line 453.
+ [18]
 Chapter 4.
-[17
+[19
 
-] [18] [19{C:/Users/neelm/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-supe
-r/cm-super-ts1.enc}]
-<../figures/2DSimulationData.pdf, id=461, 442.05101pt x 440.77298pt>
+{C:/Users/neelm/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-super/cm-super
+-ts1.enc}] [20] [21]
+<../figures/2DSimulationData.pdf, id=514, 426.39299pt x 429.65157pt>
 File: ../figures/2DSimulationData.pdf Graphic file (type pdf)
 <use ../figures/2DSimulationData.pdf>
-Package pdftex.def Info: ../figures/2DSimulationData.pdf  used on input line 55
-5.
-(pdftex.def)             Requested size: 364.19667pt x 363.15794pt.
- [20
+Package pdftex.def Info: ../figures/2DSimulationData.pdf  used on input line 57
+1.
+(pdftex.def)             Requested size: 450.69417pt x 454.15007pt.
+ [22] [23
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.1}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.569 \end{alignat*}
-                     <../figures/2DSimulationData.pdf>]
-<../figures/regular_DiagonalKernel.pdf, id=488, 1092.48103pt x 369.39026pt>
+l.609 	\item T
+              he test set is an equally-spaced $20\times 20$ grid. <../figures/
+2DSimulationData.pdf>] [24
+pdfTeX warning (ext4): destination with the same identifier (name{table.4.1}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.657 
+      ]
+<../figures/regular_DiagonalKernel.pdf, id=552, 1092.48103pt x 369.39026pt>
 File: ../figures/regular_DiagonalKernel.pdf Graphic file (type pdf)
 <use ../figures/regular_DiagonalKernel.pdf>
 Package pdftex.def Info: ../figures/regular_DiagonalKernel.pdf  used on input l
-ine 594.
+ine 660.
 (pdftex.def)             Requested size: 450.69417pt x 152.38663pt.
- [21]
-<../figures/regular_ArtificialKernel,N_c=50.pdf, id=500, 1092.48103pt x 369.390
+<../figures/regular_ArtificialKernel,N_c=50.pdf, id=555, 1092.48103pt x 369.390
 26pt>
 File: ../figures/regular_ArtificialKernel,N_c=50.pdf Graphic file (type pdf)
 <use ../figures/regular_ArtificialKernel,N_c=50.pdf>
 Package pdftex.def Info: ../figures/regular_ArtificialKernel,N_c=50.pdf  used o
-n input line 606.
+n input line 672.
 (pdftex.def)             Requested size: 450.69417pt x 152.38663pt.
-<../figures/regular_ArtificialKernel,N_c=400.pdf, id=501, 1092.48103pt x 369.39
+<../figures/regular_ArtificialKernel,N_c=400.pdf, id=556, 1092.48103pt x 369.39
 026pt>
 File: ../figures/regular_ArtificialKernel,N_c=400.pdf Graphic file (type pdf)
 <use ../figures/regular_ArtificialKernel,N_c=400.pdf>
 Package pdftex.def Info: ../figures/regular_ArtificialKernel,N_c=400.pdf  used 
-on input line 613.
+on input line 679.
 (pdftex.def)             Requested size: 450.69417pt x 152.38663pt.
-<../figures/regular_Divergence-freeKernel.pdf, id=502, 1092.48103pt x 369.39026
+<../figures/regular_Divergence-freeKernel.pdf, id=558, 1092.48103pt x 369.39026
 pt>
 File: ../figures/regular_Divergence-freeKernel.pdf Graphic file (type pdf)
 <use ../figures/regular_Divergence-freeKernel.pdf>
 Package pdftex.def Info: ../figures/regular_Divergence-freeKernel.pdf  used on 
-input line 623.
+input line 689.
 (pdftex.def)             Requested size: 450.69417pt x 152.38663pt.
- [22
+ [25
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.2}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.627 \clearpage
-                
+l.695 \clearpage
+                 <../figures/regular_DiagonalKernel.pdf>] [26
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.3}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.627 \clearpage
-                 <../figures/regular_DiagonalKernel.pdf> <../figures/regular_Ar
-tificialKernel,N_c=50.pdf>] [23
+l.695 \clearpage
+                
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.4}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.627 \clearpage
+l.695 \clearpage
                 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.5}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.627 \clearpage
-                 <../figures/regular_ArtificialKernel,N_c=400.pdf> <../figures/
-regular_Divergence-freeKernel.pdf>]
-<../figures/DiagonalKernel.pdf, id=591, 1092.48103pt x 369.39026pt>
+l.695 \clearpage
+                 <../figures/regular_ArtificialKernel,N_c=50.pdf> <../figures/r
+egular_ArtificialKernel,N_c=400.pdf> <../figures/regular_Divergence-freeKernel.
+pdf>]
+<../figures/DiagonalKernel.pdf, id=649, 1076.82304pt x 355.59514pt>
 File: ../figures/DiagonalKernel.pdf Graphic file (type pdf)
 <use ../figures/DiagonalKernel.pdf>
-Package pdftex.def Info: ../figures/DiagonalKernel.pdf  used on input line 633.
+Package pdftex.def Info: ../figures/DiagonalKernel.pdf  used on input line 701.
 
-(pdftex.def)             Requested size: 450.69417pt x 152.38663pt.
-<../figures/ArtificialKernel,N_c=50.pdf, id=592, 1092.48103pt x 369.39026pt>
+(pdftex.def)             Requested size: 450.69417pt x 148.82805pt.
+<../figures/ArtificialKernel,N_c=50.pdf, id=650, 1076.82304pt x 355.59514pt>
 File: ../figures/ArtificialKernel,N_c=50.pdf Graphic file (type pdf)
 <use ../figures/ArtificialKernel,N_c=50.pdf>
 Package pdftex.def Info: ../figures/ArtificialKernel,N_c=50.pdf  used on input 
-line 641.
-(pdftex.def)             Requested size: 450.69417pt x 152.38663pt.
-<../figures/ArtificialKernel,N_c=400.pdf, id=593, 1092.48103pt x 369.39026pt>
+line 709.
+(pdftex.def)             Requested size: 450.69417pt x 148.82805pt.
+<../figures/ArtificialKernel,N_c=400.pdf, id=651, 1076.82304pt x 355.59514pt>
 File: ../figures/ArtificialKernel,N_c=400.pdf Graphic file (type pdf)
 <use ../figures/ArtificialKernel,N_c=400.pdf>
 Package pdftex.def Info: ../figures/ArtificialKernel,N_c=400.pdf  used on input
- line 648.
-(pdftex.def)             Requested size: 450.69417pt x 152.38663pt.
-<../figures/Divergence-freeKernel.pdf, id=594, 1092.48103pt x 369.39026pt>
+ line 716.
+(pdftex.def)             Requested size: 450.69417pt x 148.82805pt.
+<../figures/Divergence-freeKernel.pdf, id=652, 1076.82304pt x 355.59514pt>
 File: ../figures/Divergence-freeKernel.pdf Graphic file (type pdf)
 <use ../figures/Divergence-freeKernel.pdf>
 Package pdftex.def Info: ../figures/Divergence-freeKernel.pdf  used on input li
-ne 655.
-(pdftex.def)             Requested size: 450.69417pt x 152.38663pt.
- [24
+ne 723.
+(pdftex.def)             Requested size: 450.69417pt x 148.82805pt.
+ [27
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.6}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.659 \clearpage
+l.727 \clearpage
                 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.7}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.659 \clearpage
+l.727 \clearpage
                  <../figures/DiagonalKernel.pdf> <../figures/ArtificialKernel,N
-_c=50.pdf>] [25
+_c=50.pdf>] [28
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.8}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.659 \clearpage
+l.727 \clearpage
                 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.9}) 
 has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.659 \clearpage
+l.727 \clearpage
                  <../figures/ArtificialKernel,N_c=400.pdf> <../figures/Divergen
 ce-freeKernel.pdf>]
-<../figures/RMSE_2D.pdf, id=680, 715.47299pt x 354.12299pt>
+<../figures/RMSE_2D.pdf, id=733, 715.47299pt x 354.12299pt>
 File: ../figures/RMSE_2D.pdf Graphic file (type pdf)
 <use ../figures/RMSE_2D.pdf>
-Package pdftex.def Info: ../figures/RMSE_2D.pdf  used on input line 666.
-(pdftex.def)             Requested size: 364.19667pt x 180.2545pt.
-<../figures/NLPD_2D.pdf, id=681, 715.47299pt x 354.12299pt>
+Package pdftex.def Info: ../figures/RMSE_2D.pdf  used on input line 734.
+(pdftex.def)             Requested size: 450.69417pt x 223.06622pt.
+<../figures/NLPD_2D.pdf, id=734, 715.47299pt x 354.12299pt>
 File: ../figures/NLPD_2D.pdf Graphic file (type pdf)
 <use ../figures/NLPD_2D.pdf>
-Package pdftex.def Info: ../figures/NLPD_2D.pdf  used on input line 673.
-(pdftex.def)             Requested size: 364.19667pt x 180.2545pt.
- [26
+Package pdftex.def Info: ../figures/NLPD_2D.pdf  used on input line 741.
+(pdftex.def)             Requested size: 450.69417pt x 223.06622pt.
+ [29
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.10})
  has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.686 \end{equation}
-                    
+l.750 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.11})
  has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.686 \end{equation}
-                     <../figures/RMSE_2D.pdf> <../figures/NLPD_2D.pdf>]
-<../figures/observed_path_3D_colours.pdf, id=740, 729.07042pt x 731.13103pt>
-File: ../figures/observed_path_3D_colours.pdf Graphic file (type pdf)
-<use ../figures/observed_path_3D_colours.pdf>
-Package pdftex.def Info: ../figures/observed_path_3D_colours.pdf  used on input
- line 697.
-(pdftex.def)             Requested size: 364.19667pt x 365.21877pt.
-
-[27
+l.750 
+       <../figures/RMSE_2D.pdf> <../figures/NLPD_2D.pdf>]
+<../figures/train2D/RMSE.pdf, id=792, 715.47299pt x 354.12299pt>
+File: ../figures/train2D/RMSE.pdf Graphic file (type pdf)
+<use ../figures/train2D/RMSE.pdf>
+Package pdftex.def Info: ../figures/train2D/RMSE.pdf  used on input line 759.
+(pdftex.def)             Requested size: 450.69417pt x 223.06622pt.
+<../figures/train2D/NLPD.pdf, id=793, 715.47299pt x 354.12299pt>
+File: ../figures/train2D/NLPD.pdf Graphic file (type pdf)
+<use ../figures/train2D/NLPD.pdf>
+Package pdftex.def Info: ../figures/train2D/NLPD.pdf  used on input line 766.
+(pdftex.def)             Requested size: 450.69417pt x 223.06622pt.
+ [30
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.12})
  has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.704 ...artial}{\partial x_1} & 0 \end{bmatrix}$$
-                                                   <../figures/observed_path_3D
-_colours.pdf>] [28]
-<../figures/RMSE_3D.pdf, id=773, 715.47299pt x 354.12299pt>
-File: ../figures/RMSE_3D.pdf Graphic file (type pdf)
-<use ../figures/RMSE_3D.pdf>
-Package pdftex.def Info: ../figures/RMSE_3D.pdf  used on input line 744.
-(pdftex.def)             Requested size: 364.19667pt x 180.2545pt.
-<../figures/NLPD_3D.pdf, id=774, 715.47299pt x 354.12299pt>
-File: ../figures/NLPD_3D.pdf Graphic file (type pdf)
-<use ../figures/NLPD_3D.pdf>
-Package pdftex.def Info: ../figures/NLPD_3D.pdf  used on input line 751.
-(pdftex.def)             Requested size: 364.19667pt x 180.2545pt.
- [29
+l.780 \end{equation}
+                     <../figures/train2D/RMSE.pdf>]
+<../figures/observed_path_3D_coloured.pdf, id=819, 715.47299pt x 630.29993pt>
+File: ../figures/observed_path_3D_coloured.pdf Graphic file (type pdf)
+<use ../figures/observed_path_3D_coloured.pdf>
+Package pdftex.def Info: ../figures/observed_path_3D_coloured.pdf  used on inpu
+t line 791.
+(pdftex.def)             Requested size: 364.19667pt x 320.83318pt.
+ [31
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.13})
  has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.762 \end{equation*}
-                     
+l.807 \end{alignat*}
+                     <../figures/train2D/NLPD.pdf>] [32
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4.14})
  has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.762 \end{equation*}
-                      <../figures/RMSE_3D.pdf> <../figures/NLPD_3D.pdf>]
-[30]
+l.825 
+       <../figures/observed_path_3D_coloured.pdf>]
+<../figures/RMSE_3D.pdf, id=868, 715.47299pt x 354.12299pt>
+File: ../figures/RMSE_3D.pdf Graphic file (type pdf)
+<use ../figures/RMSE_3D.pdf>
+Package pdftex.def Info: ../figures/RMSE_3D.pdf  used on input line 838.
+(pdftex.def)             Requested size: 450.69417pt x 223.06622pt.
+<../figures/NLPD_3D.pdf, id=869, 715.47299pt x 354.12299pt>
+File: ../figures/NLPD_3D.pdf Graphic file (type pdf)
+<use ../figures/NLPD_3D.pdf>
+Package pdftex.def Info: ../figures/NLPD_3D.pdf  used on input line 845.
+(pdftex.def)             Requested size: 450.69417pt x 223.06622pt.
+ [33
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.15})
+ has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.856 \end{equation*}
+                      <../figures/RMSE_3D.pdf>] [34
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4.16})
+ has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.875 \chapter
+              {Summary and conclusions} <../figures/NLPD_3D.pdf>]
 Chapter 5.
-[31
+[35
 
-] [32
+] [36
 
 ]
 Appendix A.
-[33
+[37
 
 ] (diss_report.aux)
  ***********
@@ -1081,16 +1133,16 @@ LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-08>
  ***********
 Package rerunfilecheck Info: File `diss_report.out' has not changed.
-(rerunfilecheck)             Checksum: A59D8DDD030DDD92F612E9FFE9C8D9DA;7497.
+(rerunfilecheck)             Checksum: 0BD7DFFB7DC0F34D59FDF9B71794B166;8024.
 Package logreq Info: Writing requests to 'diss_report.run.xml'.
 \openout1 = `diss_report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 21081 strings out of 474491
- 379879 string characters out of 5743833
- 1944473 words of memory out of 5000000
- 42944 multiletter control sequences out of 15000+600000
+ 21208 strings out of 474491
+ 382373 string characters out of 5743833
+ 1947473 words of memory out of 5000000
+ 43054 multiletter control sequences out of 15000+600000
  573804 words of font info for 96 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  90i,16n,93p,898b,1327s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1140,9 +1192,9 @@ rograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/neelm/A
 ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:
 /Users/neelm/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfrm1200
 .pfb>
-Output written on diss_report.pdf (33 pages, 5695070 bytes).
+Output written on diss_report.pdf (37 pages, 2080155 bytes).
 PDF statistics:
- 980 PDF objects out of 1000 (max. 8388607)
- 162 named destinations out of 1000 (max. 500000)
- 465 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1074 PDF objects out of 1200 (max. 8388607)
+ 172 named destinations out of 1000 (max. 500000)
+ 491 words of extra memory for PDF output out of 10000 (max. 10000000)
 

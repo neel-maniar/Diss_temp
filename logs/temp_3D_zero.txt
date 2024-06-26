@@ -1,0 +1,61 @@
+Diagonal Kernel
+---------------
+C:\Users\neelm\miniconda3\envs\gp\lib\site-packages\scipy\optimize\_optimize.py:1417: RuntimeWarning: invalid value encountered in scalar multiply
+  if (alpha_k*vecnorm(pk) <= xrtol*(xrtol + vecnorm(xk))):
+Optimization terminated successfully.
+         Current function value: -749.059078
+         Iterations: 13
+         Function evaluations: 17
+         Gradient evaluations: 17
+Initial: σ_n, l, σ_f: [0.0, 0.5, 0.7071067811865476]
+Initial NMLL: 2328.827532889756
+Final: σ_n, l, σ_f: [0.0, 0.3080661846576109, 0.4275953645287833]
+Final NMLL: -749.0590777147011
+Diagonal Kernel rmse: 0.09483092252248101
+
+Curl-free Kernel
+----------------
+C:\Users\neelm\miniconda3\envs\gp\lib\site-packages\scipy\optimize\_optimize.py:1417: RuntimeWarning: invalid value encountered in scalar multiply
+  if (alpha_k*vecnorm(pk) <= xrtol*(xrtol + vecnorm(xk))):
+Warning: Desired error not necessarily achieved due to precision loss.
+         Current function value: 205.017715
+         Iterations: 16
+         Function evaluations: 70
+         Gradient evaluations: 58
+Initial: σ_n, l, σ_f: [0.0, 0.5, 0.7071067811865476]
+Initial NMLL: 17379.33120255195
+Final: σ_n, l, σ_f: [0.0, 0.2992843888904738, 0.32649863036460114]
+Final NMLL: 205.01771466141895
+Curl-free Kernel rmse: 0.2701581630065343
+
+Artificial Kernel, $N_c$ = 10
+-----------------------------
+Artificial Kernel, $N_c$ = 10 rmse: 0.09477501567192426
+
+Artificial Kernel, $N_c$ = 19
+-----------------------------
+Artificial Kernel, $N_c$ = 19 rmse: 0.0947629642301051
+
+Artificial Kernel, $N_c$ = 37
+-----------------------------
+Artificial Kernel, $N_c$ = 37 rmse: 0.09470920114415275
+
+Artificial Kernel, $N_c$ = 72
+-----------------------------
+Artificial Kernel, $N_c$ = 72 rmse: 0.09472514671476452
+
+Artificial Kernel, $N_c$ = 139
+------------------------------
+Artificial Kernel, $N_c$ = 139 rmse: 0.09461033498109866
+
+Artificial Kernel, $N_c$ = 268
+------------------------------
+Artificial Kernel, $N_c$ = 268 rmse: 0.09438495796363922
+
+Artificial Kernel, $N_c$ = 518
+------------------------------
+Artificial Kernel, $N_c$ = 518 rmse: 0.09361757996744006
+
+Artificial Kernel, $N_c$ = 1000
+-------------------------------
+Artificial Kernel, $N_c$ = 1000 rmse: 0.09225867484775659

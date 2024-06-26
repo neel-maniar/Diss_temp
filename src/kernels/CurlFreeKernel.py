@@ -9,7 +9,7 @@ import gpjax as gpx
 
 @dataclass
 class CurlFreeKernel(gpx.kernels.AbstractKernel):
-    kernel_g: gpx.kernels.AbstractKernel = gpx.kernels.RBF(active_dims=[0, 1, 2])
+    kernel: gpx.kernels.AbstractKernel = gpx.kernels.RBF(active_dims=[0, 1, 2])
 
     def __call__(
         self, X: Float[Array, "1 D"], Xp: Float[Array, "1 D"]
@@ -19,7 +19,7 @@ class CurlFreeKernel(gpx.kernels.AbstractKernel):
 
         # convert to array to correctly index, -ve sign due to exchange symmetry (only true for stationary kernels)
         # Hessian calculated only on the first argument
-        kernel_g_hessian = -jnp.array(hessian(self.kernel_g)(X, Xp), dtype=jnp.float64)[
+        kernel_g_hessian = -jnp.array(hessian(self.kernel)(X, Xp), dtype=jnp.float64)[
             z
         ][zp]
 

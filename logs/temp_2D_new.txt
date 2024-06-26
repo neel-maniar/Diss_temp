@@ -1,0 +1,57 @@
+Diagonal Kernel
+---------------
+Optimization terminated successfully.
+         Current function value: 114.194390
+         Iterations: 42
+         Function evaluations: 44
+         Gradient evaluations: 44
+Initial: σ_n, l, σ_f: [0.0001, 0.5, 0.7071067811865476]
+Initial NMLL: 375.65763793390425
+Final: σ_n, l, σ_f: [9.926543841104837e-08, 0.5099276829149836, 2.113473986244994]
+Final NMLL: 114.19439010233206
+Diagonal Kernel rmse: 0.938471717329506
+
+Divergence-free Kernel
+----------------------
+Optimization terminated successfully.
+         Current function value: 90.219530
+         Iterations: 43
+         Function evaluations: 46
+         Gradient evaluations: 46
+Initial: σ_n, l, σ_f: [0.0001, 0.5, 0.7071067811865476]
+Initial NMLL: 102.67992570877797
+Final: σ_n, l, σ_f: [2.267259194201965e-08, 0.6671228627186707, 1.4278319846882128]
+Final NMLL: 90.21952985181596
+Divergence-free Kernel rmse: 0.6424665784924347
+
+Artificial Kernel, $N_c$ = 25
+-----------------------------
+Artificial Kernel, $N_c$ = 25 rmse: 0.8192081875793741
+
+Artificial Kernel, $N_c$ = 50
+-----------------------------
+Artificial Kernel, $N_c$ = 50 rmse: 0.6706622953027411
+
+Artificial Kernel, $N_c$ = 75
+-----------------------------
+Artificial Kernel, $N_c$ = 75 rmse: 0.6857498751208791
+
+Artificial Kernel, $N_c$ = 100
+------------------------------
+Artificial Kernel, $N_c$ = 100 rmse: 0.6554331301638308
+
+Artificial Kernel, $N_c$ = 150
+------------------------------
+Artificial Kernel, $N_c$ = 150 rmse: 0.6428767679118735
+
+Artificial Kernel, $N_c$ = 200
+------------------------------
+Artificial Kernel, $N_c$ = 200 rmse: 0.6246118652261621
+
+Artificial Kernel, $N_c$ = 300
+------------------------------
+Artificial Kernel, $N_c$ = 300 rmse: 0.6093081493237016
+
+Artificial Kernel, $N_c$ = 400
+------------------------------
+Artificial Kernel, $N_c$ = 400 rmse: 0.6098311108039736

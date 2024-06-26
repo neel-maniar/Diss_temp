@@ -29,6 +29,7 @@ pagebackref=true]{hyperref}  % turns references into hyperlinks
 
 \usepackage{algorithm} % Allows algorithm envs
 \usepackage{algpseudocode} %Works with algorithm package
+\usepackage{booktabs} % For better tables
 
 %\usepackage[
 %backend=biber,
@@ -122,11 +123,15 @@ for a comparable purpose.
 \textbf{Date: 29th June 2024}
 \vspace{\fill}
 
+\chapter*{Acknowledgements}
+I would like to express my gratitude to my supervisor, Dr. Henry Moss, for his guidance and support throughout this dissertation - in particular for helping me see the general ideas when I got lost in the mathematical weeds of Gaussian Processes.
+
 \chapter*{Abstract}
 In this report, we attempt to reproduce the results of \cite{Jidling}. The paper exposes a systematic way in which to enforce linear functional constraints on Gaussian processes by choosing a suitable covariance function. This allows for an accurate, elegant and computationally cheap method of including physical priors into Bayesian inference.
 
 In addition, many of the mathematical concepts in the paper are made explicit.
 
+\tableofcontents
 \chapter*{Nomenclature and Notation}\label{nomenclature}
 
 \section{Notation}
@@ -163,7 +168,9 @@ This is analogous to the \texttt{reshape} method in \texttt{numpy}.
 \end{tabular}
 
 
-\tableofcontents
+% List of Figures
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
 
 \chapter{Introduction}
 \label{firstcontentpage}
@@ -224,9 +231,8 @@ $$\mathbf f\sim \mathcal{GP}(\mathbf m, \mathbf  K)$$
 This definition of a vector Gaussian process naturally demonstrates that they may be thought of equivalently as more familiar scalar Gaussian processes.
 
 \begin{definition}[Squared exponential kernel]\label{SE}
-	This is the kernel used at all times in this paper (but any mean-differentiable kernel would do).
-$K_{SE}(\mathbf x,\mathbf x') = K_{SE}(\mathbf x - \mathbf x') = \sigma^2_f \exp\left(-\frac{1}{2\ell^2}\|\mathbf x-\mathbf x'\|_2^2\right)$
-
+	This is the kernel used at all times in this paper (but any mean-differentiable kernel would do). 
+$$K_{SE}(\mathbf x,\mathbf x'; \sigma_f, \ell) = K_{SE}(\mathbf x - \mathbf x';\sigma_f, \ell) = \sigma^2_f \exp\left(-\frac{1}{2\ell^2}\|\mathbf x-\mathbf x'\|_2^2\right)$$
 \end{definition}
 
 \section{Linear constraints}
@@ -349,13 +355,15 @@ $$p(\mathbf f|\{\mathbf x,\mathbf y\}) = \frac{p(\{\mathbf y\}|\mathbf f,\{\math
 where $\{\mathbf z\}$ is a shorthand for the training data, $\{\mathbf z_i\}_{i=1}^{N_T}$ and $\mathbf f$ is the function distribution. Each of the terms are described in greater detail below.
 
 \subsection{Prior}\label{prior}
-The prior distribution is a Gaussian process with mean and kernel function explicitly chosen. The mean function is typically chosen to be zero. [WHY]
+The prior distribution is a Gaussian process with mean and kernel function explicitly chosen. The mean function is typically chosen to be zero to simplify calculations. In the experiments that follow, the mean function is also set to zero.
 
 Explicitly:
 $$p(\mathbf f|\{\mathbf x\}) = \mathcal {GP}(\mathbf 0,\mathbf K)$$
 
 \subsection{Likelihood}\label{likelihood}
-The likelihood is assumed to be Gaussian. Following the convention in the definition of \hyperref[vectorGP]{Vector Gaussian Processes}, $\{\mathbf y\}$ can be flattened into a single vector, $\mathbf{\overline y}$. A similar convention is followed for $\mathbf{\overline {f(\mathbf x)}}$.
+The likelihood is assumed to be a Gaussian, centred at the true function value with a heteroscedastic variance of $\sigma_n^2$, which may be thought of as measurement error. This is a parameter which gets optimised along with any kernel parameters. 
+
+Following the convention in the definition of \hyperref[vectorGP]{Vector Gaussian Processes}, $\{\mathbf y\}$ can be flattened into a single vector, $\mathbf{\overline y}$. A similar convention is followed for $\mathbf{\overline {f(\mathbf x)}}$.
 $$ p(\{\mathbf y\}|\mathbf f, \{\mathbf x\}) = p\left(\mathbf{\overline y}| \mathbf{\overline {f(\mathbf x)}} \right) = \mathcal N(\mathbf{\overline {f(\mathbf x)}}, \sigma_n^2 \mathbf I_{NK}) $$
 
 \subsection{Posterior}\label{posterior}
@@ -387,7 +395,7 @@ $$p(\{\mathbf y\}|\{\mathbf x\}) =p(\mathbf{\overline y} |\{\mathbf x\}) = \math
 
 
 \section{Artificial Observations}
-One way to embed linear constraints into Gaussian processes is by enforcing the constraint at a finite number of points through \emph{artificial observations}. The dataset is extended by $N_c$ points, $\{ \mathbf{ \tilde x}_n,  \mathbf{ \tilde y}_n\}_{n=1}^{N_c}$, where $\mathbf{ \tilde y} = \mathscr F_{\mathbf{\tilde{x}}} \mathbf f = \mathbf 0$.
+One way to embed linear constraints into Gaussian processes is by enforcing the constraint at a finite number of points through \emph{artificial observations}. The dataset is extended by $N_c$ points, $\{ \mathbf{ \tilde x}_n,  \mathbf{ \tilde y}_n\}_{n=1}^{N_c}$, where $\mathbf{ \tilde y} = \mathscr F_{\mathbf{\tilde{x}}} \mathbf f = \mathbf 0$. 
 
 By \Cref{lineargp}, we know how GPs are preserved under linear functionals. Therefore, applying the result to the following linear functional: $\begin{bmatrix} \mathbf I_{NK}\\\mathscr F \end{bmatrix}$, where $\mathbf I_{NK}$ is the identity functional, we have:
 
@@ -396,6 +404,9 @@ $$\begin{bmatrix} \mathbf f\\\mathscr F \mathbf f \end{bmatrix}\sim \mathcal {GP
 [PROOF PENDING...]
 
 Thus, this may form the prior for a joint Gaussian process including both the regular and artificial points. With this method, there is no need for $\f$ to be a linear functional, or for it to have zero forcing term, and so this method is very flexible. However, the constraints are only enforced at the artificial points. In addition, the most expensive part of optimisation and prediction is taking an inverse of the Gram matrix, an operation which scales as $\mathcal O(N^3)$ where $N$ is the number of training points, so artificially increasing the number of training points reduced performance greatly.
+
+In this paper, the $\mathbf {\tilde{x}}$ are chosen to be a subset of the test set. In other words, the results from the artificial kernel are actually \emph{best case} scenarios, since the linear constraint is enforced exactly at points where the model performance is measured.
+
 
 \section{Custom Kernel}\label{custom}
 The proposed method in \cite{Jidling} encodes the linear constraint in a very different way. Here, the kernel function is carefully chosen so that any realisation of the Gaussian process definitely satisfies the linear constraint everywhere. These have been known for certain commonly used linear constraints for a long time (such as those discussed in this report). However, in the paper, a systematic method to derive such a kernel function is discussed. This is outlined below.
@@ -459,8 +470,14 @@ This is the procedure in full generality, but is reproduced in the following sec
 
 \section{GPJax}
 \subsection{GPJax vs MATLAB}
-\paragraph{Different languages}
+\paragraph{Original paper}
 In this reproduction, GPJax is used as the primary library in which to implement the construction, optimisation and prediction of Gaussian processes. This is in contrast to the original paper, which uses MATLAB. Since this is really a mathematics paper, reconstruction using a different language would would provide evidence that the empirical results are truly due to the improved inference rather than due to any quirk in programming language or implementation.
+
+That the code used by the original paper is made publicly available allows for a far more detailed reproduction for two main reasons.
+\begin{itemize}
+	\item Specific parameters can be tested, and various statistics can be used to quantify how well a reproduction matches the implementation in the paper. This is done in \Cref{reproducibility}
+	\item Any details that are omitted due to the realistic constraints of submitting papers to journals are made explicit. This is done in \Cref{sub:trainArtif}.
+\end{itemize}
 
 \paragraph{Automatic differentiation}
 GPJax is a framework which is built on JAX, which is a library built for accelerator-oriented array computation, designed for high-performance numerical computing and large-scale machine learning\footnote{As described in the \href{https://jax.readthedocs.io/en/latest/}{JAX documentation}.}. In fact, a key difference between the two implementations is the use of automatic differentiation to optimise the marginal log-likelihood. Whereas the MATLAB code must explicitly encode the derivatives of the Marginal Log-Likelihood (MLL)\label{MLL}, resulting in extremely long files and error-prone code, code written in JAX does not need to explicitly provide derivatives with respect to variables. This makes the code more flexible, and amenable to new functions and extra variables.
@@ -477,7 +494,7 @@ This fully consistent with the definition of vector Gaussian processes (\Cref{ve
 
 This means that if there are $N_T$ training data, this is effectively $N_TD$ training data in a scalar GP. If, in addition there are $N_c$ artificial inducing points, then there are $D(N_T+N_c)$ data. $N_c$ is typically much greater than $N_T$.
 
-\subsection{Optimisation}
+\subsection{Optimisation}\label{sub:Optimisation}
 In GPR, the hyperparameters are the variables used to describe the \hyperref[prior]{prior} and \hyperref[likelihood]{likelihood} distributions. In particular this includes any parameters used to describe the prior kernel and $\sigma_n$.
 
 As this is a Bayesian framework, the hyperparameters may be optimised with respect to the Bayesian evidence, the logarithm of which is referred to as the MLL. By the section on GPR \hyperref[evidence]{evidence}, the MLL is:
@@ -485,7 +502,9 @@ As this is a Bayesian framework, the hyperparameters may be optimised with respe
 	\text{MLL} := \log p(\mathbf{\overline y}|\{\mathbf x\}) = -\frac{1}{2}\mathbf{\overline y}^\top \left[\mathbf{\overline{\overline K}} + \sigma_n^2 \mathbf I_{NK}\right]^{-1}\mathbf{\overline y} - \frac{1}{2}\log \det\left(\mathbf{\overline{\overline K}}\right) - \frac{n}{2}\log 2\pi
 \end{equation*}
 
-This is a standard loss function which is minimised; on of the benefits of the GPJax framework above MATLAB is that this function is provided by the library in the form of a \texttt{ConjugateMLL} object, and does not need to be explicitly specified.
+In this paper, the MLL is a function of three parameters, $\sigma_f, \ell$ and $\sigma_n$. The first two are from the kernel and the last parametrises the likelihood.
+
+This is a standard loss function which is minimised; one of the benefits of the GPJax framework above MATLAB is that this function is provided by the library in the form of a \texttt{ConjugateMLL} object, and does not need to be explicitly specified.
 
 Importantly, this is not the same as the metric used to judge the performance of a model. These are detailed in \Cref{performance}.
 
@@ -501,10 +520,7 @@ This is the optimisation used in MATLAB via the \texttt{fminunc} function. The g
 A popular optimisation algorithm in deep learning is Adam [REF]. It employs a stochastic gradient descent strategy, whereby a different subset of data is used to calculate the MLL at each step. This optimisation is employed with the \texttt{optax} package.
 
 \subsection{Comparison of Optimisation algorithms}
-Whilst Adam is far more used in deep learning due to its tendency to avoid local minima, in this application, it was not found to be any better at reducing the MLL. [FILLIN]
-
-\subsection{Standardised reproducibility testing}
-In order to compare the implementation in GPJax to the MATLAB implementation, the training and test data was standardised to a regular, noiseless selection, removing the randomness in the data. After that the hyperparameters were optimised in both code repositories, and the MLL and RMSE compared. This allowed for a robust method in which to test how well my implementation could reproduce the results of the paper. This can be enabled in the repository with the \texttt{--regular} flag.
+Adam is a common [FILLIN]
 
 \subsection{Performance measurement}\label{performance}
 \subsubsection{RMSE}
@@ -522,7 +538,7 @@ Another method in which to measure performance in probabilistic models such as t
 
 This is a measure of error rather than score (smaller is better).
 
-Interestingly, the two performance measurement metrics do not always agree.
+Interestingly, the two performance measurement metrics do not always agree. A benefit of this metric above RMSE is that it is better motivated for probabilistic models like GPs. In addition, it takes the uncertainty of prediction (in other words, the variance of the predicted distribution) into account. This is particularly relevant in the setting of vector GPs, where it is difficult to visually display the predicted distribution. Indeed all plots in this report only display the mean of the prediction.
 
 \section{2D example of a Divergence-Free kernel}
 \subsection{Latent function}
@@ -552,8 +568,8 @@ The test dataset is denoted $\mathcal{D}_P = \{(\mathbf x_i, \mathbf y_i)\}_{i=1
 \subsection{Visualisation of data}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{2DSimulationData}
-	\caption{2D simulated data, using a divergence free function. The red arrows are the train set and the grey arrows are the test set.}
+	\includegraphics[width=0.99\textwidth]{2DSimulationData}
+	\caption[2D data]{2D simulated data, using a divergence free function. The red arrows are the train set and the grey arrows are the test set.}
 \end{figure}
 
 \subsection{Custom kernel Derivation}
@@ -580,19 +596,69 @@ Therefore, have $\mathscr G = \begin{bmatrix} -\frac{\partial}{\partial x_2}\\\f
 For example, here a squared exponential (SE) kernel (\Cref{SE}) is used with zero mean. Since it is an stationary kernel, $\frac{\partial}{\partial x_d} K_{SE}(\mathbf x- \mathbf x') = -\frac{\partial}{\partial x_d'}K_{SE}(\mathbf x-\mathbf x')$, therefore, we have:
 $$\mathscr G \mathbf g \sim \mathcal {GP}\left( \mathbf 0, \begin{bmatrix} \frac{1}{\ell^2}-\frac{x_2^2}{\ell^4} & \frac{x_1x_2}{\ell^4}\\ \frac{x_1x_2}{\ell^4} & \frac{1}{\ell^2}-\frac{x_1^2}{\ell^4} \end{bmatrix} \sigma_f^2 \exp\left( -\frac{1}{2\ell^2}\|\mathbf x-\mathbf x'\|_2^2 \right)  \right) $$
 
-\subsection{Optimisation}
-In every example, the BFGS algorithm is used to optimise the MLL. Oftentimes, the algorithm does not terminate due to precision loss, however they are good enough, and match the MATLAB code.
+\subsection{Optimisation and Initialisation of parameters}
+In every example, the BFGS algorithm is used to optimise the MLL. Oftentimes, the algorithm does not terminate due to precision loss, however they reach a good enough value to match the MATLAB code, as tested in \Cref{reproducibility}. 
+
+Initial parameters were decided by doing a few trial runs with parameters of various scales. Typically, GP MLLs are highly multimodal distributions, but with only three parameters the Quasi-Newton optimisation seemed fairly robust, and the initialisation did not seem to matter up to two orders of magnitude around the optimum.
+
+\subsection{Standardised reproducibility testing}\label{reproducibility}
+In order to compare the implementation in GPJax to the MATLAB implementation, every part of the optimisation is set to be as deterministic as possible.
+
+\begin{itemize}
+	\item The training data is an equally-spaced, $7\times 7$ grid.
+	\item The test set is an equally-spaced $20\times 20$ grid. 
+	\item For the artificial kernel, the train dataset is augmented by $\mathscr F f$ evaluated on the same subset of test points.
+	\item Both implementations are set to use the deterministic BFGS algorithm.
+	\item The optimisations were performed with identical starting values.
+\end{itemize}
+
+The adapted MATLAB code can be found in the repository, and the corresponding GPJax code can be run with the command \texttt{python src/main.py --2D --regular}.
+
+The optimised kernel parameters, as well as the resulting negative marginal log-likelihoods and the performance of the models (measured by RMSE) are listed in \Cref{tab:comparison}. This analysis is done for the diagonal kernel and custom kernel. The artificial kernel is actually not trained in the MATLAB code - instead, the optimised parameters from the diagonal kernel are reused. This investigated further in \Cref{sub:trainArtif}. Therefore, the only possible metric of comparison is the RMSE between the model and truth.
+
+Notably, the optimised negative marginal log-likelihoods in both implementations are remarkably similar, matching up to the fourth decimal point.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        & \textbf{GPJax} & \textbf{MATLAB} \\
+        \midrule
+        \multicolumn{3}{@{}l}{\textbf{Diagonal}} \\
+        $\sigma_f$ & 1.6320 & 1.6320 \\
+        $\ell\times 10^2$ & 9.6439 & 4.5198 \\
+        $\sigma_n\times 10^4$ & 0.99994 & 8.2942 \\
+        NMLL & 187.05 & 187.06 \\
+        RMSE & 1.4056 & 1.5194 \\
+        \midrule
+        \multicolumn{3}{@{}l}{\textbf{Custom}} \\
+        $\sigma_f$ & 1.3434 & 1.3437 \\
+        $\ell$ & 0.68482 & 0.68487 \\
+        $\sigma_n\times 10^8$ & 3.2839 & -0.51024 \\
+        NMLL & 103.91 & 103.91 \\
+        RMSE & 0.25662 & 0.25663 \\
+        \midrule
+        \multicolumn{3}{@{}l}{\textbf{Artificial}} \\
+        RMSE (25 artificial points) & 1.4029 & 1.5194 \\
+        RMSE (100 artificial points) & 1.3988 & 1.5191 \\
+        RMSE (400 artificial points) & 1.3782 & 1.5182 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Comparison of GPJax and MATLAB results for the 2D simulation.}
+    \label{tab:comparison}
+\end{table}
+
 
 \subsection{Regular training points}
 In order to test how well the implementation matches the MATLAB implementation in the original paper, a regular grid of 49 points was selected for train points. This set of training points is actually a great way to visualise the different kernels. 
 
 \subsubsection{Diagonal kernel}
-The diagonal kernel is completely ignorant to the divergence-free constaint, so naturally creates impossible flows, seen in \Cref{regdiag}. Since the GP was trained with a zero mean function (which is a common practice when there is no prior information in the data), the GP predicts zero far from the training points. There are issues with very large flows being predict near very small flows, as might be expected. Here the RMSE is 1.4056. For reference, predicting zero everywhere gives and RMSE of [NUMBER].
+The diagonal kernel is completely ignorant to the divergence-free constaint, so naturally creates impossible flows, seen in \Cref{regdiag}. Since the GP was trained with a zero mean function (which is a common practice when there is no prior information in the data), the GP predicts zero far from the training points. There are issues with very large flows being predict near very small flows, as might be expected. Here the RMSE is 1.4056. For reference, predicting zero everywhere gives and RMSE of 1.581.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.99\textwidth]{regular_DiagonalKernel}
-	\caption{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Diagonal Kernel. Right: The residuals.}
+	\caption[Diagonal kernel, regular training points]{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Diagonal Kernel. Right: The residuals.}
 	\label{regdiag}
 \end{figure}
 
@@ -604,25 +670,27 @@ It should also be noted that the artificial points increase the size of the data
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.99\textwidth]{regular_ArtificialKernel,N_c=50}
-	\caption{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 50 artificial points. Right: The residuals.}
+	\caption[Artificial kernel (50 inducing points), regular training points]{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 50 artificial points. Right: The residuals.}
 	\label{regartif50}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.99\textwidth]{regular_ArtificialKernel,N_c=400}
-	\caption{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 400 artificial points. Right: The residuals.}
+	\caption[Artificial kernel (400 inducing points), regular training points]{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 400 artificial points. Right: The residuals.}
 	\label{regartif400}
 \end{figure}
 
 \subsubsection{Custom kernel}
-The custom kernel performs extremely well on regular train points, outperforming both other kernels with an RMSE of 0.2566. It is able to use the information of a divergence-free globally.
+The custom kernel performs extremely well on regular train points, as seen in \Cref{fig:cust}, outperforming both other kernels with an RMSE of 0.2566. It is able to use the information of a divergence-free globally.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.99\textwidth]{regular_Divergence-freeKernel}
-	\caption{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with the custom, divergence-free kernel. Right: The residuals.}
+	\caption[Custom, regular training points]{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with the custom, divergence-free kernel. Right: The residuals.}
+	\label{fig:cust}
 \end{figure}
+
 
 \clearpage
 \subsection{Random training points}
@@ -631,7 +699,7 @@ Example fits for a random selection of training points are given below, for each
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.99\textwidth]{DiagonalKernel}
-	\caption{Random training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Diagonal Kernel. Right: The residuals.}
+	\caption[Diagonal kernel, random training points]{Random training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Diagonal Kernel. Right: The residuals.}
 	\label{diag}
 \end{figure}
 
@@ -639,21 +707,21 @@ Example fits for a random selection of training points are given below, for each
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.99\textwidth]{ArtificialKernel,N_c=50}
-	\caption{Random training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 50 artificial points. Right: The residuals.}
+	\caption[Artificial kernel (50 inducing points), random training points]{Random training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 50 artificial points. Right: The residuals.}
 	\label{artif50}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.99\textwidth]{ArtificialKernel,N_c=400}
-	\caption{Random training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 400 artificial points. Right: The residuals.}
+	\caption[Artificial kernel (400 inducing points), random training points]{Random training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with Artificial Kernel with 400 artificial points. Right: The residuals.}
 	\label{artif400}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.99\textwidth]{Divergence-freeKernel}
-	\caption{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with the custom, divergence-free kernel. Right: The residuals.}
+	\caption[Custom kernel, random training points]{The 49 noiseless training points in red. The grey arrows are: Left: The true latent function. Middle: The predicted function with the custom, divergence-free kernel. Right: The residuals.}
 \end{figure}
 
 \clearpage
@@ -663,17 +731,43 @@ In order to get some idea for the performance over different random training dat
  
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{RMSE_2D}
-	\caption{RMSE aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
+	\includegraphics[width=0.99\textwidth]{RMSE_2D}
+	\caption[RMSE 2D]{RMSE aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
 	\label{rmse2d}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{NLPD_2D}
-	\caption{NLPD aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
+	\includegraphics[width=0.99\textwidth]{NLPD_2D}
+	\caption[NLPD 2D]{NLPD aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
 	\label{nlpd2d}
 \end{figure}
+
+\subsection{Training the artificial kernel}\label{sub:trainArtif}
+The original MATLAB code does not train the artificial kernel, but instead reuses the trained parameters from the diagonal kernel. This is something which is not mentioned in the original paper, highlighting the importance of sharing repositories in open science.
+
+In order to investigate this further, the above simulation was run again, but this time training the artificial kernel. This is somewhat complicated - thus far, the likelihood (\Cref{likelihood}) assumed a homoscedastic error on training points, $\sigma^2_n$:
+
+$$ p(\{\mathbf y\}|\mathbf f, \{\mathbf x\}) = p\left(\mathbf{\overline y}| \mathbf{\overline {f(\mathbf x)}} \right) = \mathcal N(\mathbf{\overline {f(\mathbf x)}}, \sigma_n^2 \mathbf I_{NK}) $$
+
+However, the artificial points enforce the fact that $\mathscr F_{\mathbf {\tilde x}} \mathbf f = 0$ for every inducing point $\mathbf {\tilde{x}}$, and this is known without any measurement uncertainty, $\sigma^2_n$. Therefore, this augmented dataset should not be used for parameter optimisation - only prediction. Since the artificial kernel is identical to the diagonal kernel on the regular training set, it is accurate to use the same optimised parameters.
+
+In order to demonstrate the claim that optimisation should exclude the artificial points, we ran the simulation whilst including them (this can be enabled with the \texttt{--train} flag). The aggregate results for RMSE are shown in \Cref{fig:RMSEtrain} and NLPD are shown in \Cref{fig:NLPDtrain}. It can be seen that by both metrics, the fits get very poor when the number inducing points increases. For a point of comparison, the RMSE and NLPD for a zero prediction are also plotted.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.99\textwidth]{train2D/RMSE}
+	\caption[RMSE when optimising the artificial kernel including inducing points]{RMSE over an aggregate of 50 runs for an artificial kernel when optimising parameters over the augmented dataset.}
+	\label{fig:RMSEtrain}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.99\textwidth]{train2D/NLPD}
+	\caption[NLPD when optimising the artificial kernel including inducing points]{NLPD over an aggregate of 50 runs for an artificial kernel when optimising parameters over the augmented dataset.}
+	\label{fig:NLPDtrain}
+\end{figure}
+
 
 \section{3D example of a Curl-Free kernel}
 In order to demonstrate the different kernels in a real dataset, the primary paper performs an experiment, whereby a magnetic sensor is moved around a magnetically distorted indoor environment.
@@ -694,8 +788,8 @@ The test data consists of 1000 uniformly sampled points.
 \subsection{Visualisation of data}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{observed_path_3D_colours}
-	\caption{3D observation of data. The magnitude of observed magnetic field is coloured}
+	\includegraphics[width=0.8\textwidth]{observed_path_3D_coloured}
+	\caption[3D data]{3D observation of data. The magnitude of observed magnetic field is coloured}
 \end{figure}
 
 \subsection{Custom kernel}
@@ -741,15 +835,15 @@ These fits took a far longer time, around 2 minutes per cycle.
  
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{RMSE_3D}
-	\caption{RMSE aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
+	\includegraphics[width=0.99\textwidth]{RMSE_3D}
+	\caption[RMSE 3D]{RMSE aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
 	\label{rmse3d}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{NLPD_3D}
-	\caption{NLPD aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
+	\includegraphics[width=0.99\textwidth]{NLPD_3D}
+	\caption[NLPD 3D]{NLPD aggregated over 50 runs. The mean is plotted in a solid line and 1 standard deviation is shaded.}
 	\label{nlpd3d}
 \end{figure}
 
@@ -782,7 +876,7 @@ Therefore this technique works better when the functional returns a matrix. This
 
 In summary, in this report, we reproduced the results in the primary paper. Enforcing the linear constraint in the kernel allows it to be enforced globally, and with low computational cost.
 
-The results have been faithfully produced, using the same technique but in a different library. Reproducbility was confirmed by creating deterministic regular points and comparing log-likelihoods. Similar results were achieved using different optimisation techniques.
+The results have been faithfully produced, using the same technique but in a different library. Reproducibility was confirmed by creating deterministic regular points and comparing log-likelihoods. Similar results were achieved using different optimisation techniques.
 
 \label{lastcontentpage} % end page count here
 

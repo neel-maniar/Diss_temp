@@ -4,6 +4,7 @@ config.update("jax_enable_x64", True)
 import sys
 import numpy as np
 import jax.random as jr
+import jax.numpy as jnp
 import matplotlib.pyplot as plt
 from jaxtyping import install_import_hook
 from matplotlib import rcParams
@@ -36,12 +37,6 @@ import os
 with install_import_hook("gpjax", "beartype.beartype"):
     import gpjax as gpx
 
-plt.style.use(
-    "https://raw.githubusercontent.com/JaxGaussianProcesses/GPJax/main/docs/examples/gpjax.mplstyle"
-)
-colors = rcParams["axes.prop_cycle"].by_key()["color"]
-
-import argparse
 import toml
 
 
@@ -56,6 +51,7 @@ def script_2D(params):
     OPTIMISER = params["optimiser"].lower()
     TRAIN_ARTIFICIAL = params["train_artificial"]
     PLOT = params["plot"]
+    NAME = params["name"]
 
     # Store the results in these arrays
     rmseDiag = np.zeros((N_REPEAT, 1))
@@ -68,12 +64,17 @@ def script_2D(params):
     nlpdCust = np.zeros((N_REPEAT, 1))
     nlpdArtif = np.zeros((N_REPEAT, len(N_C_LIST)))
 
+    initial_lengthscale = 0.5
+    initial_variance = 0.5
+
+    initial_params = jnp.array(
+        [NOISE, initial_lengthscale, initial_variance], dtype=jnp.float64
+    )
+
     if N_REPEAT == 1:
         verbose = True
     else:
         verbose = False
-
-    train_artificial_posterior = False
 
     objective = gpx.objectives.ConjugateMLL(negative=True)
 
@@ -85,7 +86,7 @@ def script_2D(params):
         x, y, xtest, ytest = generate_data(master_key, A, N_TRAIN, N_TEST_1D, NOISE)
 
         if PLOT:
-            plot_data(x, y, xtest, ytest, "2DSimulationData")
+            plot_data(x, y, xtest, ytest, directory=NAME)
         if REGULAR:
             x, y = regular_train_points(master_key, a=A, n=N_TRAIN, noise=NOISE)
         dataset_train, dataset_test = transform_data(x, y, xtest, ytest)
@@ -96,7 +97,9 @@ def script_2D(params):
             header(kernel_name)
 
         meanf = gpx.mean_functions.Zero()
-        posterior = initialise_gp(DiagonalKernel(), meanf, dataset_train, NOISE)
+        posterior = initialise_gp(
+            DiagonalKernel, meanf, dataset_train, 2, initial_params
+        )
         opt_posterior, opt_MLL = optimise_mll(
             posterior,
             dataset_train,
@@ -108,8 +111,6 @@ def script_2D(params):
 
         ypred, y_std = predict(opt_posterior, dataset_test.X, dataset_train)
 
-        regular = "regular_" if REGULAR else ""
-
         if PLOT:
             plot_pred(
                 x,
@@ -118,7 +119,8 @@ def script_2D(params):
                 ytest,
                 ypred,
                 kernel_name=kernel_name,
-                filename=regular + kernel_name,
+                directory=NAME,
+                regular=REGULAR,
             )
         rmseDiag[i] = rmse(ytest, ypred).item()
         nlpdDiag[i] = nlpd(ypred, y_std, ytest)
@@ -131,7 +133,9 @@ def script_2D(params):
         kernel_name = "Divergence-free Kernel"
         if verbose:
             header(kernel_name)
-        posterior = initialise_gp(DivFreeKernel(), meanf, dataset_train, NOISE)
+        posterior = initialise_gp(
+            DivFreeKernel, meanf, dataset_train, 2, initial_params
+        )
         opt_posterior, opt_MLL = optimise_mll(
             posterior,
             dataset_train,
@@ -152,7 +156,8 @@ def script_2D(params):
                 ytest,
                 ypred,
                 kernel_name=kernel_name,
-                filename=regular + kernel_name,
+                directory=NAME,
+                regular=REGULAR,
             )
         if verbose:
             print(f"{kernel_name} rmse: {rmse(ytest, ypred).item()}")
@@ -163,15 +168,15 @@ def script_2D(params):
             if verbose:
                 header(kernel_name)
             dataset_train_artif = add_collocation_points(
-                dataset_train, xtest, N_c, master_key
+                dataset_train, xtest, N_c, master_key, 1, REGULAR
             )
             if TRAIN_ARTIFICIAL:
                 posterior = initialise_gp(
-                    ArtificialKernel(), meanf, dataset_train_artif, NOISE
+                    ArtificialKernel, meanf, dataset_train, 2, initial_params
                 )
                 opt_posterior, opt_MLL = optimise_mll(
                     posterior,
-                    dataset_train_artif,
+                    dataset_train,
                     verbose=verbose,
                     optimisation=OPTIMISER,
                     key=master_key,
@@ -179,7 +184,7 @@ def script_2D(params):
                 )
             else:
                 opt_posterior = steal_diag_params(
-                    diag_params, dataset_train_artif, ArtificialKernel()
+                    diag_params, dataset_train_artif, ArtificialKernel
                 )
                 opt_MLL = objective(opt_posterior, dataset_train_artif)
 
@@ -197,15 +202,11 @@ def script_2D(params):
                     ytest,
                     ypred,
                     kernel_name=kernel_name,
-                    filename=regular + kernel_name,
+                    directory=NAME,
+                    regular=REGULAR,
                 )
             if verbose:
                 print(f"{kernel_name} rmse:", rmse(ytest, ypred).item())
-
-    if train_artificial_posterior:
-        directory = "results/Trained Artificial Posterior Refactor"
-    else:
-        directory = "results/Stolen Artificial Posterior Refactor 2"
 
     # Define a dictionary to store the arrays
     arrays = {
@@ -220,12 +221,20 @@ def script_2D(params):
         "NLPD (Diagonal Kernel)": nlpdDiag,
     }
 
+    directory = join("results", NAME)
     if not exists(directory):
         os.makedirs(directory)
 
     # Save the arrays
-    if not PLOT:
+    if N_REPEAT != 1:
         for name, array in arrays.items():
             np.save(join(directory, f"{name}.npy"), array)
 
     print("Done")
+
+
+if __name__ == "__main__":
+    params_global = toml.load("params.toml")["Global"]
+    params_2D = toml.load("params.toml")["2D"]
+    params_2D.update(params_global)
+    script_2D(params_2D)

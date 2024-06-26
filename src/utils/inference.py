@@ -8,6 +8,7 @@ Functions:
 - predict: Predict the mean and standard deviation of the target variable using the optimized posterior distribution.
 - steal_diag_params: Steal diagonal parameters from a given dataset collection and apply them to a Gaussian process.
 """
+
 from jax import config
 
 config.update("jax_enable_x64", True)
@@ -22,9 +23,6 @@ import optax as ox
 from matplotlib import rcParams
 
 sys.path.append("src")
-from line_profiler import LineProfiler
-
-profiler = LineProfiler()
 
 with install_import_hook("gpjax", "beartype.beartype"):
     import gpjax as gpx
@@ -33,18 +31,56 @@ from gpjax.gps import ConjugatePosterior
 from gpjax.mean_functions import AbstractMeanFunction
 from gpjax import Dataset
 
+import tensorflow_probability.substrates.jax.bijectors as tfb
+from gpjax.base import param_field
+
 # Enable Float64 for more stable matrix inversions.
-plt.style.use(
-    "https://raw.githubusercontent.com/JaxGaussianProcesses/GPJax/main/docs/examples/gpjax.mplstyle"
-)
-colors = rcParams["axes.prop_cycle"].by_key()["color"]
+
+from utils.CustomPosterior import CustomPosterior
+
+
+# def initialise_gp(
+#     kernel,
+#     mean: AbstractMeanFunction,
+#     dataset: Dataset,
+#     initial_sigma_n: jnp.float64 = 2 * 1e-2,
+# ) -> ConjugatePosterior:
+#     """
+#     Initialize a Gaussian Process (GP) model for inference.
+
+#     Parameters
+#     ----------
+#     kernel : Any
+#         The kernel function for the GP model.
+#     mean : AbstractMeanFunction
+#         The mean function for the GP model.
+#     dataset : Dataset
+#         The dataset used for training the GP model.
+#     initial_sigma_n : float, optional
+#         The initial value for the observation noise standard deviation.
+
+#     Returns
+#     -------
+#     ConjugatePosterior
+#         The posterior GP model.
+#     """
+#     prior = gpx.gps.Prior(mean_function=mean, kernel=kernel)
+#     likelihood = gpx.likelihoods.Gaussian(
+#         num_datapoints=dataset.n,
+#         obs_stddev=jnp.array(
+#             [initial_sigma_n], dtype=jnp.float64
+#         ),  # TODO check what sigma_n should be
+#     )
+#     posterior = prior * likelihood
+#     return posterior
 
 
 def initialise_gp(
-    kernel,
-    mean: AbstractMeanFunction,
+    kernel_class,
+    mean_func: AbstractMeanFunction,
     dataset: Dataset,
-    initial_sigma_n: jnp.float64 = 2 * 1e-2,
+    input_dim,
+    initial_params=jnp.array([1e-2, 1.0, 1.0], dtype=jnp.float64),
 ) -> ConjugatePosterior:
     """
     Initialize a Gaussian Process (GP) model for inference.
@@ -65,7 +101,23 @@ def initialise_gp(
     ConjugatePosterior
         The posterior GP model.
     """
-    prior = gpx.gps.Prior(mean_function=mean, kernel=kernel)
+    active_dims = jnp.arange(input_dim, dtype=jnp.int32)
+    
+    if initial_params is not None:
+        initial_sigma_n, initial_lengthscale, initial_variance = initial_params
+
+        kernel = kernel_class(
+            kernel=gpx.kernels.RBF(
+                active_dims=active_dims,
+                lengthscale=initial_lengthscale,
+                variance=initial_variance,
+            )
+        )
+    else:
+        initial_sigma_n = 2 * 1e-2
+        kernel = kernel_class()
+
+    prior = gpx.gps.Prior(mean_function=mean_func, kernel=kernel)
     likelihood = gpx.likelihoods.Gaussian(
         num_datapoints=dataset.n,
         obs_stddev=jnp.array(
@@ -209,32 +261,34 @@ def predict(opt_posterior, test_X, dataset_train):
             A tuple containing the predicted mean and standard deviation.
 
     """
+    opt_posterior = CustomPosterior(opt_posterior.prior, opt_posterior.likelihood)
     dist = opt_posterior.predict(test_X, train_data=dataset_train)
     pred_mean = dist.mean()
     pred_std = dist.stddev()
     return pred_mean, pred_std
 
 
-def steal_diag_params(diag_params, dataset_coll_train, kernel):
+def steal_diag_params(diag_params, dataset_coll_train, kernel_class):
     """
     Steals diagonal parameters from a given dataset collection and applies them to a Gaussian process.
 
     Parameters
     ----------
-    - diag_params (numpy.ndarray): 
+    - diag_params (numpy.ndarray):
         The diagonal parameters to be applied to the Gaussian process.
-    - dataset_coll_train (DatasetCollection): 
+    - dataset_coll_train (DatasetCollection):
         The training dataset collection.
-    - kernel (GPy.kern.Kern): 
+    - kernel (GPy.kern.Kern):
         The kernel function for the Gaussian process.
 
     Returns
     -------
-    - opt_art_posterior (GPy.models.GPRegression): 
+    - opt_art_posterior (GPy.models.GPRegression):
         The optimized posterior Gaussian process with the stolen diagonal parameters.
     """
     meanf = gpx.mean_functions.Zero()
-    art_posterior = initialise_gp(kernel, meanf, dataset_coll_train)
+    input_dim = dataset_coll_train.X[-1,-1]
+    art_posterior = initialise_gp(kernel_class, meanf, dataset_coll_train, input_dim, None)
     ravel_func = ravel_pytree(art_posterior)[1]
     opt_art_posterior = ravel_func(diag_params)
     return opt_art_posterior

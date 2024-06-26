@@ -1,7 +1,8 @@
 [Global]
 regular = false # regular data for debugging
 optimiser = "scipy" # "scipy" or "adam"
-nrRepeat = 1 # number of repetitions of experiments
+nrRepeat = 50 # number of repetitions of experiments
+plot = false # plot the results
 
 [2D]
 ## 2D dataset
@@ -9,15 +10,17 @@ a = 0.01
 noise = 1e-4
 N_train = 50
 N_test_1D = 20
+name = "results_2D"
 
 ## Artificial kernel
 N_c_list = [25, 50, 75, 100, 150, 200, 300, 400]
 train_artificial = false
 
 [3D]
+noise = 2e-2
 N_train = 500
 N_test = 1000
-
+name = "results_3D"
 
 ## Artificial kernel
 N_c_list = [10, 19, 37, 72, 139, 268, 518, 1000]

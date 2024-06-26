@@ -1,0 +1,11 @@
+regular = false
+optimiser = "scipy"
+nrRepeat = 50
+plot = false
+a = 0.01
+noise = 0.001
+N_train = 50
+N_test_1D = 20
+name = "Noisy2D3"
+N_c_list = [ 25, 50, 75, 100, 150, 200, 300, 400,]
+train_artificial = false

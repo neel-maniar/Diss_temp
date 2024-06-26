@@ -1,15 +1,9 @@
 """
+Data tools
+=====================
+
 This module provides utility functions for generating and transforming data for a toy problem.
 
-Functions:
-- f1(x1, x2, a=0.01): Compute the value of f1 function.
-- f2(x1, x2, a=0.01): Compute the value of f2 function.
-- f(x, a=0.01): Compute the value of f function.
-- generate_data(key, a=0.01, n=50, n_test_1d=20, noise=10**-4): Generate data for the toy problem.
-- regular_train_points(key, a=0.01, n=50, noise=10**-4): Generate regular training points with noise.
-- label_observations(data: jnp.ndarray, output_dim: int) -> jnp.ndarray: Label the observations in the input data.
-- transform_data(x, y, xtest, ytest): Transform the input data and labels into a dataset for training and testing.
-- add_collocation_points(dataset_train, xtest, num_coll, key, new_dim=1): Add collocation points to the dataset.
 """
 
 import jax.numpy as jnp
@@ -217,14 +211,14 @@ def transform_data(x, y, xtest, ytest):
     return dataset_train, dataset_test
 
 
-def add_collocation_points(dataset_train, xtest, num_coll, key, new_dim=1):
+def add_collocation_points(dataset_train, xtest, num_coll, key, functional_dim=1, regular=False):
     """
     Add collocation points to the dataset.
 
     Parameters
     ----------
     - dataset_train (gpx.Dataset): Training dataset.
-    - xtest (ndarray): Test points.
+    - xtest (ndarray, N by D): Test points.
     - num_coll (int): Number of collocation points to add.
     - key (jax.random.PRNGKey): Random key for generating collocation points.
     - new_dim (int, optional): Number of additional dimensions to add to the collocation points. Defaults to 1.
@@ -237,20 +231,16 @@ def add_collocation_points(dataset_train, xtest, num_coll, key, new_dim=1):
         raise ValueError(
             "Number of collocation points should be less than or equal to the number of test points."
         )
-    output_dim = dataset_train.X[-1, -1] + 1
-    print("output",output_dim)
-    zeros = jnp.zeros(num_coll * new_dim).reshape(-1, 1)
-    print("zeros",zeros.shape)
+    output_dim = dataset_train.X[-1, -1]
+    zeros = jnp.zeros(num_coll * functional_dim).reshape(-1, 1)
     y_output = jnp.vstack((dataset_train.y, zeros))
-    print("y_output",y_output.shape)
-    r = jr.choice(key, xtest, (num_coll,), replace=False)
-    print("r",r.shape)
-    extra_dims = jnp.arange(output_dim + 1, output_dim + 1 + new_dim)
-    print("extra_dims",extra_dims.shape)
+    if regular:
+        indices = jnp.linspace(0, xtest.shape[0] - 1, num_coll, dtype=jnp.int32)
+        r = xtest[indices]
+    else:
+        r = jr.choice(key, xtest, (num_coll,), replace=False)
+    extra_dims = jnp.arange(output_dim + 1, output_dim + 1 + functional_dim)
     repeated_extra_dims = jnp.repeat(extra_dims, num_coll)
-    print("repeated_extra_dims",repeated_extra_dims.shape)
     column = repeated_extra_dims.reshape(-1, 1)
-    print("column",column.shape)
-    artif_obs = jnp.hstack((jnp.repeat(r, new_dim, axis=0), column))
-    print("artif_obs",artif_obs.shape)
+    artif_obs = jnp.hstack((jnp.repeat(r, functional_dim, axis=0), column))
     return gpx.Dataset(jnp.vstack((dataset_train.X, artif_obs)), y_output)

@@ -13,15 +13,19 @@ x = jnp.array([[0, 1], [2, 3]], dtype=jnp.float64)
 y = jnp.array([[0, 1, 2], [3, 4, 5]], dtype=jnp.float64)
 xtest = jnp.array([[8, 9]], dtype=jnp.float64)
 ytest = jnp.array([[12, 13, 14]], dtype=jnp.float64)
+N_T = 2
+N_P = 1
+D = 2
+K = 3
 
 
 def test_transform_data():
     data_train, data_test = data_tools.transform_data(x, y, xtest, ytest)
 
     # Dimensions
-    N = x.shape[0]
-    D = x.shape[1]
-    K = y.shape[1]
+    assert N_T == x.shape[0]
+    assert D == x.shape[1]
+    assert K == y.shape[1]
 
     assert jnp.allclose(
         data_train.X,
@@ -56,6 +60,8 @@ def test_add_collocation_points():
     assert jnp.allclose(dataset_train_1.y[-1], jnp.array([0.0]))
 
     dataset_train_2 = data_tools.add_collocation_points(dataset_train, xtest, 1, key, 3)
+    assert jnp.allclose(dataset_train_2.X[-3], jnp.array([8.0, 9.0, 3.0]))
+    assert jnp.allclose(dataset_train_2.X[-2], jnp.array([8.0, 9.0, 4.0]))
     assert jnp.allclose(dataset_train_2.X[-1], jnp.array([8.0, 9.0, 5.0]))
     assert jnp.allclose(dataset_train_2.y[-1], jnp.array([0.0]))
 

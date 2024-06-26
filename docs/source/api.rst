@@ -1,8 +1,19 @@
 API
 ===
 
+Utility files
+-------------
 .. autosummary::
-   :toctree: _autosummary
-   :recursive:
+    :toctree: _autosummary
+    :recursive:
     
-   src
+    utils
+    kernels
+
+
+Main code
+---------
+.. toctree::
+    :maxdepth: 2
+    
+    plotter
